@@ -1,0 +1,122 @@
+super + b
+	 firefox
+
+super + shift + b
+	firefox -private-window
+
+super + Return
+	tilix
+
+# rofi launchers
+super + space
+   	rofi -show drun -config ~/.config/bspwm/rofi/config.rasi -modi drun -line-padding 4 -hide-scrollbar -show-icons 
+   	
+super + shift + Return
+    tilix
+	
+# help with shortcuts
+super + h
+	ghostty -e ~/.config/bspwm/keyhelper.sh
+
+# application launchers
+
+super + f
+	thunar
+
+super + e 	
+	geany
+
+super + g
+	gimp
+
+super + v
+   tilix -e pulsemixer
+	
+super + d
+	Discord
+
+super + o
+	obs
+
+# set the window state
+super + shift + {t,space,f}
+	bspc node -t {tiled,floating,fullscreen}
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
+	
+super + shift + r
+	bspc wm -r; notify-send 'bspwm' 'Restarted'
+
+## windows keybindings
+super + shift + q
+	bspc quit
+
+super + q
+	bspc node -c
+
+super + i
+    bspc node -R 90
+super + shift + i
+    bspc node -R -90
+
+super + { Left, Down, Up, Right}
+	bspc node -f {west,south,north,east}
+	
+super + shift + { Left, Down, Up, Right}
+	bspc node -s {west,south,north,east}
+
+## Change workspace
+# super + {_,shift + }{1-9,0,F1,F2}
+#	bspc {desktop --focus,node --to-desktop} 'focused:^{1-9,10,11,12}' --follow
+	
+super + {_,shift + }{1-9,0,F1,F2}
+	bspc {desktop --focus,node --to-desktop} 'focused:^{1-9,10,11,12}'
+
+# Resize tiling windows
+super + ctrl + {Left,Down,Up,Right}
+	{bspc node -z left -40 0; bspc node -z right -40 0, \
+	bspc node -z bottom 0 40; bspc node -z top 0 40, \
+	bspc node -z bottom 0 -40; bspc node -z top 0 -40, \ 
+	bspc node -z left 40 0; bspc node -z right 40 0}
+	
+## audio
+
+# Change volume, chunky
+super + Insert
+    ~/.config/bspwm/scripts/changevolume up
+    
+super + Delete
+	~/.config/bspwm/scripts/changevolume down
+	
+super + m
+	~/.config/bspwm/scripts/changevolume mute
+	
+# dedicated volume keys
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	pamixer {-i,-d} 2
+
+# dedicated backlight keys
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	xbacklight {+10,-10}
+
+#############
+# flameshot #
+#############
+super + @Print
+	flameshot gui --path ~/Screenshots/
+
+@Print
+	flameshot full --path ~/Screenshots/
+	
+## redshift
+super + alt + r
+	~/scripts/redshift-on
+	
+super + alt + b
+	~/scripts/redshift-off
+
+    
+super + @equal
+	bspc query -N -d | xargs -I % bspc node % -B
