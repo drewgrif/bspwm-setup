@@ -14,7 +14,7 @@ else
 fi
 
 # Copy the config file from the cloned directory to ~/.config/ghostty
-if [ -f "$TEMP_DIR/myghostty/config_file_name" ]; then  # Replace with actual config file name
+if [ -f "$TEMP_DIR/myghostty/config" ]; then  
     echo "Creating ~/.config/ghostty directory if it doesn't exist..."
     mkdir -p "$HOME/.config/ghostty"  # Create the directory if it doesn't exist
     echo "Copying config file to ~/.config/ghostty..."
