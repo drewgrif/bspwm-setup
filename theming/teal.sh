@@ -41,5 +41,3 @@ else
     rm -rf ~/Downloads/Colloid-gtk-theme
 fi
 
-
-bash ~/bookworm-scripts/colorschemes/update_gtk_settings.sh

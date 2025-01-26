@@ -20,8 +20,7 @@ if [ -f "$TEMP_DIR/myghostty/config_file_name" ]; then  # Replace with actual co
     echo "Copying config file to ~/.config/ghostty..."
     cp "$TEMP_DIR/myghostty/config" "$HOME/.config/ghostty/"
 else
-    echo "Config file not found in the repository!"
-    exit 1
+    echo "Config file not found in the repository. Skipping config copy."
 fi
 
 # Clean up by removing the cloned repository

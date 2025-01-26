@@ -5,7 +5,62 @@ sudo apt update
 
 # Install packages
 sudo apt install -y \
-    # (list of packages)
+    xorg \
+    xbacklight \
+    xbindkeys \
+    xvkbd \
+    xinput \
+    build-essential \
+    git \
+    network-manager \
+    network-manager-gnome \
+    pamixer \
+    thunar \
+    thunar-archive-plugin \
+    thunar-volman \
+    file-roller \
+    lxappearance \
+    dialog \
+    mtools \
+    dosfstools \
+    avahi-daemon \
+    acpi \
+    acpid \
+    gvfs-backends \
+    xfce4-power-manager \
+    pavucontrol \
+    pamixer \
+    pulsemixer \
+    feh \
+    fonts-recommended \
+    fonts-font-awesome \
+    fonts-terminus \
+    papirus-icon-theme \
+    exa \
+    flameshot \
+    qimgv \
+    rofi \
+    dunst \
+    libnotify-bin \
+    xdotool \
+    unzip \
+    libnotify-dev \
+    --no-install-recommends gdm3 \
+    geany \
+    geany-plugin-addons \
+    geany-plugin-git-changebar \
+    geany-plugin-spellcheck \
+    geany-plugin-treebrowser \
+    geany-plugin-markdown \
+    geany-plugin-insertnum \
+    geany-plugin-lineoperations \
+    geany-plugin-automark \
+    bspwm \
+    sxhkd \
+    suckless-tools \
+    polybar \
+    tilix \
+    firefox-esr
 
 echo "Package installation complete!"
 
@@ -43,7 +98,7 @@ if [ -f ./theming/ghostty.sh ]; then
     echo "Running install_ghostty.sh..."
     source ./theming/ghostty.sh
 else
-    echo "install_ghostty.sh not found in the theming directory!"
+    echo "ghostty.sh not found in the theming directory!"
 fi
 
 echo "All scripts executed!"
