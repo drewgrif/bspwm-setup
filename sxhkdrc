@@ -5,14 +5,14 @@ super + shift + b
 	firefox -private-window
 
 super + Return
-	tilix
+	ghostty
 
 # rofi launchers
 super + space
    	rofi -show drun -config ~/.config/bspwm/rofi/config.rasi -modi drun -line-padding 4 -hide-scrollbar -show-icons 
    	
 super + shift + Return
-    tilix
+    tilix 
 	
 # help with shortcuts
 super + h
@@ -109,13 +109,6 @@ super + @Print
 
 @Print
 	flameshot full --path ~/Screenshots/
-	
-## redshift
-super + alt + r
-	~/scripts/redshift-on
-	
-super + alt + b
-	~/scripts/redshift-off
 
     
 super + @equal

@@ -28,8 +28,8 @@ Super + Shift + (1-9,0) ---  Move and Focus Window to tag (workspace 1-10)
 SXHKD KEY BINDINGS
 ------------------
 Super + Space --- Rofi Menu
-Super + Return --- Tilix
-Super + Shift + Return --- Kitty (floating)
+Super + Return --- Ghostty
+Super + Shift + Return --- Tilix (floating)
 Super + b --- Firefox-ESR
 Super + Shift + b --- Firefox-ESR -private-window
 Super + f --- Thunar

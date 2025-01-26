@@ -21,17 +21,17 @@ bspc config normal_border_color "#1B2B34"
 # bspc rule -a "*" split_dir=east
 bspc rule -a \* rectangle 1280x720+0+0 center=true
 bspc rule -a qimgv state=floating
-bspc rule -a sxiv state=floating
+# bspc rule -a sxiv state=floating
 bspc rule -a Xarchiver state=floating layer=normal
 bspc rule -a Tilix state=floating layer=normal
 bspc rule -a Galculator state=floating layer=normal rectangle=900x600+0+0
 bspc rule -a mpv state=floating layer=normal
 bspc rule -a Pavucontrol:pavucontrol state=floating 
 bspc rule -a Lxappearance state=floating layer=normal
-bspc rule -a 'GitHub Desktop' desktop='^2' follow=on
-bspc rule -a Gimp desktop='^9' follow=on
-bspc rule -a obs desktop='^10' follow=on
-bspc rule -a discord desktop='^8' follow=on
+# bspc rule -a 'GitHub Desktop' desktop='^2' follow=on
+# bspc rule -a Gimp desktop='^9' follow=on
+# bspc rule -a obs desktop='^10' follow=on
+# bspc rule -a discord desktop='^8' follow=on
 
 # start up stuff
 xsetroot -cursor_name left_ptr &
