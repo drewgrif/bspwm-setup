@@ -1,5 +1,36 @@
 #!/bin/bash
 
+clear
+echo "
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ |j|u|s|t|a|g|u|y|l|i|n|u|x| 
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ |b|s|p|w|m| | |s|c|r|i|p|t| 
+ +-+-+-+-+-+-+ +-+-+-+-+-+-+                                                                                                            
+"
+
+# Check if git is installed
+if ! command -v git &> /dev/null; then
+    echo "Git is not installed. Attempting to install Git..."
+    
+    # Use apt to install git
+    if command -v apt &> /dev/null; then
+        sudo apt update
+        sudo apt install git -y
+    else
+        echo "Cannot install Git automatically using apt. Please install Git manually and run this script again."
+        exit 1
+    fi
+    
+    # Check again if git is installed after attempting to install
+    if ! command -v git &> /dev/null; then
+        echo "Git installation failed. Please install Git manually and run this script again."
+        exit 1
+    fi
+fi
+
+echo "Git is installed. Continuing with the script..."
+
 # Update package list
 sudo apt update
 
@@ -11,7 +42,6 @@ sudo apt install -y \
     xvkbd \
     xinput \
     build-essential \
-    git \
     network-manager \
     network-manager-gnome \
     pamixer \
