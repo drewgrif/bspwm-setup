@@ -38,7 +38,8 @@ xsetroot -cursor_name left_ptr &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 dunst -config ~/.config/bspwm/dunst/dunstrc &
 picom --config ~/.config/bspwm/picom/picom.conf --animations -b &
-feh --bg-fill ~/.config/bspwm/wallpaper/gruvbox-dark-debian-scalable.svg &
+# feh --bg-fill ~/.config/bspwm/wallpaper/gruvbox-dark-debian-scalable.svg &
+feh --bg-fill ~/.config/backgrounds/wallhaven-5g2zr9_3440x1440.png &
 
 ## Polybar or tint
 ~/.config/bspwm/polybar-bspwm &

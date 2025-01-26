@@ -35,6 +35,7 @@ sudo apt install -y \
     fonts-recommended \
     fonts-font-awesome \
     fonts-terminus \
+    ttf-mscorefonts-installer \
     papirus-icon-theme \
     exa \
     flameshot \
@@ -63,6 +64,14 @@ sudo apt install -y \
     firefox-esr
 
 echo "Package installation complete!"
+
+# Enable services
+sudo systemctl enable avahi-daemon
+sudo systemctl enable acpid
+
+# Update user directories
+xdg-user-dirs-update
+mkdir -p ~/Screenshots/
 
 # Run theming scripts using source
 if [ -f ./theming/picom.sh ]; then

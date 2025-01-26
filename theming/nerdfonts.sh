@@ -60,6 +60,9 @@ do
     rm /tmp/$font.zip
 done
 
+# Add additions TTF Fonts
+cp ../fonts/* ~/.local/share/fonts
+
 # Update font cache
 fc-cache -f
 
