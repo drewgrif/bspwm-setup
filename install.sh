@@ -22,14 +22,6 @@ command_exists() {
     command -v "$1" &>/dev/null
 }
 
-# Function to safely execute a command
-# ------------------------------------
-# This function runs a command and checks for errors. If the command fails,
-# the script exits with an error message.
-safe_run() {
-    "$@" || { echo "Error: '$*' failed. Exiting."; exit 1; }
-}
-
 # ========================================
 # Package Installation Section
 # ========================================
@@ -40,7 +32,7 @@ safe_run() {
 # power management, file managers (Thunar), and various development tools.
 install_packages() {
     echo "Installing required packages..."
-    safe_run apt install -y \
+    sudo apt install -y \
         xorg xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar \
         network-manager network-manager-gnome pamixer thunar thunar-archive-plugin \
         thunar-volman file-roller lxappearance dialog mtools dosfstools avahi-daemon \
@@ -51,7 +43,7 @@ install_packages() {
         geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown \
         geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark \
         nala micro xdg-user-dirs-gtk \
-        --no-install-recommends gdm3
+        --no-install-recommends gdm3 || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
 
@@ -64,7 +56,7 @@ install_packages() {
 # to install it before continuing with any repository cloning steps.
 if ! command_exists git; then
     echo "Git is not installed. Attempting to install..."
-    safe_run apt install -y git
+    sudo apt install -y git || echo "Warning: Git installation failed."
 fi
 
 # ========================================
@@ -76,8 +68,8 @@ fi
 # and ACPI (for power management) are enabled on the system for proper operation.
 enable_services() {
     echo "Enabling required services..."
-    safe_run systemctl enable avahi-daemon
-    safe_run systemctl enable acpid
+    systemctl enable avahi-daemon || echo "Warning: Failed to enable avahi-daemon."
+    systemctl enable acpid || echo "Warning: Failed to enable acpid."
     echo "Services enabled."
 }
 
@@ -92,8 +84,8 @@ enable_services() {
 # directory exists in the user's home directory for managing screenshots.
 setup_user_dirs() {
     echo "Updating user directories..."
-    safe_run xdg-user-dirs-update
-    mkdir -p ~/Screenshots/
+    xdg-user-dirs-update || echo "Warning: Failed to update user directories."
+    mkdir -p ~/Screenshots/ || echo "Warning: Failed to create Screenshots directory."
     echo "User directories updated."
 }
 
@@ -109,19 +101,19 @@ install_picom() {
         echo "Picom is already installed. Skipping installation."
     else
         echo "Installing Picom..."
-        safe_run apt install -y libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev \
+        sudo apt install -y libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev \
             libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev \
             libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev \
             libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev \
             libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev \
-            libxext-dev meson ninja-build uthash-dev
-
+            libxext-dev meson ninja-build uthash-dev || echo "Warning: Picom dependencies installation failed."
+        
         TEMP_DIR=$(mktemp -d)
-        git clone https://github.com/FT-Labs/picom "$TEMP_DIR/picom"
-        cd "$TEMP_DIR/picom" || return 1
-        safe_run meson setup --buildtype=release build
-        safe_run ninja -C build
-        safe_run ninja -C build install
+        git clone https://github.com/FT-Labs/picom "$TEMP_DIR/picom" || echo "Warning: Failed to clone Picom repository."
+        cd "$TEMP_DIR/picom" || echo "Warning: Failed to access Picom directory."
+        meson setup --buildtype=release build || echo "Warning: Meson setup failed."
+        ninja -C build || echo "Warning: Ninja build failed."
+        ninja -C build install || echo "Warning: Ninja install failed."
         rm -rf "$TEMP_DIR"
         echo "Picom installation complete."
     fi
@@ -148,15 +140,15 @@ install_fonts() {
             echo "Font $font is already installed. Skipping."
         else
             echo "Installing font: $font"
-            wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip" -P /tmp || { echo "Error downloading font $font."; exit 1; }
-            unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/
+            wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip" -P /tmp || { echo "Warning: Error downloading font $font."; continue; }
+            unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/ || echo "Warning: Error extracting font $font."
             rm /tmp/$font.zip
         fi
     done
 
     # Add custom TTF fonts
-    cp ../fonts/* ~/.local/share/fonts
-    fc-cache -f
+    cp ../fonts/* ~/.local/share/fonts || echo "Warning: Error copying custom TTF fonts."
+    fc-cache -f || echo "Warning: Error rebuilding font cache."
     echo "Font installation completed."
 }
 
@@ -173,12 +165,12 @@ install_fastfetch() {
     TEMP_DIR=$(mktemp -d)
     trap 'rm -rf "$TEMP_DIR"' EXIT
 
-    git clone https://github.com/fastfetch-cli/fastfetch "$TEMP_DIR/fastfetch"
-    cd "$TEMP_DIR/fastfetch" || return 1
-    safe_run cmake .
-    chmod +x run.sh
-    ./run.sh
-    mv build/fastfetch /usr/local/bin/
+    git clone https://github.com/fastfetch-cli/fastfetch "$TEMP_DIR/fastfetch" || echo "Warning: Failed to clone Fastfetch repository."
+    cd "$TEMP_DIR/fastfetch" || echo "Warning: Failed to access Fastfetch directory."
+    cmake . || echo "Warning: CMake failed."
+    chmod +x run.sh || echo "Warning: Failed to make run.sh executable."
+    ./run.sh || echo "Warning: Fastfetch run failed."
+    mv build/fastfetch /usr/local/bin/ || echo "Warning: Failed to move Fastfetch binary to /usr/local/bin/"
     echo "Fastfetch installation complete."
 }
 
@@ -196,12 +188,12 @@ install_ghostty() {
         echo "Ghostty is already installed. Skipping installation."
     else
         TEMP_DIR=$(mktemp -d)
-        git clone https://github.com/drewgrif/myghostty "$TEMP_DIR/myghostty"
+        git clone https://github.com/drewgrif/myghostty "$TEMP_DIR/myghostty" || echo "Warning: Failed to clone Ghostty repository."
         if [ -f "$TEMP_DIR/myghostty/install_ghostty.sh" ]; then
-            bash "$TEMP_DIR/myghostty/install_ghostty.sh"
+            bash "$TEMP_DIR/myghostty/install_ghostty.sh" || echo "Warning: Ghostty installation script failed."
         fi
         mkdir -p "$HOME/.config/ghostty"
-        cp "$TEMP_DIR/myghostty/config" "$HOME/.config/ghostty/"
+        cp "$TEMP_DIR/myghostty/config" "$HOME/.config/ghostty/" || echo "Warning: Failed to copy Ghostty config."
         rm -rf "$TEMP_DIR"
         echo "Ghostty installation completed."
     fi
@@ -220,25 +212,25 @@ install_themes() {
     TEMP_DIR_ICONS="/tmp/Colloid-icon-theme"
 
     # Check and install GTK theme
-    if check_directory "$HOME/.themes/Colloid-Dark"; then
+    if [ -d "$HOME/.themes/Colloid-Dark" ]; then
         echo "Colloid-gtk-theme is already installed."
     else
         echo "Installing Colloid-gtk-theme..."
-        git clone https://github.com/vinceliuice/Colloid-gtk-theme.git "$TEMP_DIR_GTK"
-        cd "$TEMP_DIR_GTK" || { echo "Failed to access temporary directory"; exit 1; }
-        yes | ./install.sh -c dark -t teal --tweaks black
+        git clone https://github.com/vinceliuice/Colloid-gtk-theme.git "$TEMP_DIR_GTK" || echo "Warning: Failed to clone Colloid GTK theme."
+        cd "$TEMP_DIR_GTK" || { echo "Warning: Failed to access GTK theme directory"; exit 1; }
+        yes | ./install.sh -c dark -t teal --tweaks black || echo "Warning: Colloid GTK theme installation failed."
         rm -rf "$TEMP_DIR_GTK"
         echo "Colloid-gtk-theme installation completed."
     fi
 
     # Check and install icon theme
-    if check_directory "$HOME/.icons/Colloid"; then
+    if [ -d "$HOME/.icons/Colloid" ]; then
         echo "Colloid-icon-theme is already installed."
     else
         echo "Installing Colloid-icon-theme..."
-        git clone https://github.com/vinceliuice/Colloid-icon-theme.git "$TEMP_DIR_ICONS"
-        cd "$TEMP_DIR_ICONS" || { echo "Failed to access temporary directory"; exit 1; }
-        ./install.sh -t teal -s default gruvbox everforest
+        git clone https://github.com/vinceliuice/Colloid-icon-theme.git "$TEMP_DIR_ICONS" || echo "Warning: Failed to clone Colloid icon theme."
+        cd "$TEMP_DIR_ICONS" || { echo "Warning: Failed to access icon theme directory"; exit 1; }
+        ./install.sh -t teal -s default gruvbox everforest || echo "Warning: Colloid icon theme installation failed."
         rm -rf "$TEMP_DIR_ICONS"
         echo "Colloid-icon-theme installation completed."
     fi
@@ -253,10 +245,10 @@ install_themes() {
 # sets the cursor, font, and other preferences using `gsettings`.
 modify_gtk_settings() {
     echo "Modifying GTK settings..."
-    gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Teal-Dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Colloid-Teal-Everforest-Dark"
-    gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"
-    gsettings set org.gnome.desktop.interface font-name "Ubuntu 11"
+    gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Teal-Dark" || echo "Warning: Failed to set GTK theme."
+    gsettings set org.gnome.desktop.interface icon-theme "Colloid-Teal-Everforest-Dark" || echo "Warning: Failed to set icon theme."
+    gsettings set org.gnome.desktop.interface cursor-theme "Adwaita" || echo "Warning: Failed to set cursor theme."
+    gsettings set org.gnome.desktop.interface font-name "Ubuntu 11" || echo "Warning: Failed to set font."
     echo "GTK settings modified."
 }
 
@@ -273,8 +265,8 @@ replace_bashrc() {
     echo "Do you want to replace your .bashrc with the default justaguylinux version? (y/n)"
     read -r answer
     if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-        cp ~/.bashrc ~/.bashrc.bak
-        wget -q https://raw.githubusercontent.com/justaguylinux/.bashrc -O ~/.bashrc
+        cp ~/.bashrc ~/.bashrc.bak || echo "Warning: Failed to backup .bashrc."
+        wget -q https://raw.githubusercontent.com/justaguylinux/.bashrc -O ~/.bashrc || echo "Warning: Failed to replace .bashrc."
         echo ".bashrc replaced. Backup saved as .bashrc.bak."
     else
         echo ".bashrc not replaced."
