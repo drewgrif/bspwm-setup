@@ -8,13 +8,6 @@ echo "
  |b|s|p|w|m| | |s|c|r|i|p|t| 
  +-+-+-+-+-+-+ +-+-+-+-+-+-+                                                                                                            
 "
-# Update user directories
-xdg-user-dirs-update
-mkdir -p ~/Screenshots/
-
-
-# Base directory of the script
-base_dir=$(dirname "$(realpath "$0")")
 
 # Check if Git is installed
 if ! command -v git &> /dev/null; then
@@ -28,7 +21,7 @@ fi
 echo "Git is installed. Continuing with the script..."
 
 # Update package list and install required packages
-apt update && apt install -y \
+sudo apt update && apt install -y \
     xorg \
     xbacklight \
     xbindkeys \
@@ -91,18 +84,114 @@ echo "Packages have been installed."
 systemctl enable avahi-daemon
 systemctl enable acpid
 
-# Run theming scripts relative to the script's directory
-theming_dir="$base_dir/theming"
+# Update user directories
+xdg-user-dirs-update
+mkdir -p ~/Screenshots/
 
-declare -a theme_scripts=("picom.sh" "nerdfonts.sh" "teal.sh" "update-gtk.sh")
-for script in "${theme_scripts[@]}"; do
-    if [ -f "$theming_dir/$script" ]; then
-        echo "Running $script..."
-        source "$theming_dir/$script"
+########## Start of Picom #################
+
+# Check if picom is already installed
+if picom --version >/dev/null 2>&1; then
+    echo "Picom is already installed. Skipping installation."
+else
+    # If picom is not installed, proceed with installation steps here
+    echo "Picom is not installed. Installing..."
+
+    # Install dependencies
+    sudo apt update
+    sudo apt install -y libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev meson ninja-build uthash-dev
+
+    # Create a temporary directory and clone the repository
+    TEMP_DIR=$(mktemp -d)
+    git clone https://github.com/FT-Labs/picom "$TEMP_DIR/picom"
+    cd "$TEMP_DIR/picom"
+
+    # Build and install picom
+    meson setup --buildtype=release build
+    ninja -C build
+    sudo ninja -C build install
+
+    # Cleanup: Remove the temporary directory
+    rm -rf "$TEMP_DIR"
+
+    echo "Picom installation complete and temporary files cleaned up."
+fi
+
+########## End of Picom #################
+
+########## Start  of Fonts #################
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Check if unzip is installed; if not, install it
+if ! command_exists unzip; then
+    echo "Installing unzip..."
+    sudo apt install unzip -y
+fi
+
+# Create directory for fonts if it doesn't exist
+mkdir -p ~/.local/share/fonts
+
+# Array of font names
+fonts=( 
+    "FiraCode"  
+    "Hack"  
+    "JetBrainsMono"  
+    "RobotoMono" 
+    "SourceCodePro" 
+    "UbuntuMono"
+    # Add additional fonts here if needed
+)
+
+# Function to check if font directory exists
+check_font_installed() {
+    font_name=$1
+    if [ -d ~/.local/share/fonts/$font_name ]; then
+        echo "Font $font_name is already installed. Skipping."
+        return 0  # Font already installed
     else
-        echo "Error: $script not found in $theming_dir!"
+        return 1  # Font not installed
     fi
+}
+
+# Loop through each font, check if installed, and install if not
+for font in "${fonts[@]}"
+do
+    if check_font_installed "$font"; then
+        echo "Skipping installation of font: $font"
+        continue  # Skip installation if font is already installed
+    fi
+    
+    echo "Installing font: $font"
+    wget -q --show-progress "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip" -P /tmp
+    if [ $? -ne 0 ]; then
+        echo "Failed to download font: $font"
+        continue
+    fi
+    
+    unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/
+    if [ $? -ne 0 ]; then
+        echo "Failed to extract font: $font"
+        continue
+    fi
+    
+    rm /tmp/$font.zip
 done
+
+# Add additions TTF Fonts
+cp ../fonts/* ~/.local/share/fonts
+
+# Update font cache
+fc-cache -f
+
+echo "Fonts installation completed."
+
+########## End of Fonts #################
+
+
+########## Start of Fastfetch #################
 
 # Run additional scripts relative to the script's directory
 scripts_dir="$base_dir/scripts"
@@ -113,6 +202,8 @@ if [ -f "$scripts_dir/fastfetch.sh" ]; then
 else
     echo "Error: fastfetch.sh not found in $scripts_dir!"
 fi
+
+########## End of Fastfetch #################
 
 if [ -f "$theming_dir/ghostty.sh" ]; then
     echo "Running ghostty.sh..."
