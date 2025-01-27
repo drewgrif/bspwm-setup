@@ -105,50 +105,36 @@ sudo systemctl enable acpid
 xdg-user-dirs-update
 mkdir -p ~/Screenshots/
 
+# Set dynamic paths
+CONFIG_DIR="${HOME}/.config/bspwm"
+THEMING_DIR="${CONFIG_DIR}/theming"
+SCRIPTS_DIR="${CONFIG_DIR}/scripts"
+
 # Run theming scripts using source
-if [ -f ./theming/picom.sh ]; then
-    echo "Running picom.sh..."
-    source ~/.config/bspwm/theming/picom.sh
-else
-    echo "picom.sh not found!"
-fi
+for script in "picom.sh" "nerdfonts.sh" "teal.sh" "update-gtk.sh"; do
+    if [ -f "${THEMING_DIR}/${script}" ]; then
+        echo "Running ${script}..."
+        source "${THEMING_DIR}/${script}"
+    else
+        echo "${script} not found in ${THEMING_DIR}!"
+    fi
+done
 
-if [ -f ./theming/nerdfonts.sh ]; then
-    echo "Running nerdfonts.sh..."
-    source ~/.config/bspwm/theming/nerdfonts.sh
-else
-    echo "nerdfonts.sh not found!"
-fi
-
-if [ -f ./theming/teal.sh ]; then
-    echo "Running teal.sh..."
-    source ~/.config/bspwm/theming/teal.sh
-else
-    echo "teal.sh not found!"
-fi
-
-if [ -f ./theming/update-gtk.sh ]; then
-    echo "Running update-gtk.sh..."
-    source ~/.config/bspwm/theming/update-gtk.sh
-else
-    echo "update-gtk.sh not found!"
-fi
-
-if [ -f ./scripts/fastfetch.sh ]; then
+if [ -f "${SCRIPTS_DIR}/fastfetch.sh" ]; then
     echo "Running fastfetch.sh..."
-    source ~/.config/bspwm/scripts/fastfetch.sh
+    source "${SCRIPTS_DIR}/fastfetch.sh"
 else
-    echo "fastfetch.sh not found!"
+    echo "fastfetch.sh not found in ${SCRIPTS_DIR}!"
 fi
 
-# Source the Ghostty install script from the theming directory
-if [ -f ./theming/ghostty.sh ]; then
-    echo "Running install_ghostty.sh..."
-    source ~/.config/bspwm/theming/ghostty.sh
+if [ -f "${THEMING_DIR}/ghostty.sh" ]; then
+    echo "Running ghostty.sh..."
+    source "${THEMING_DIR}/ghostty.sh"
 else
-    echo "ghostty.sh not found in the theming directory!"
+    echo "ghostty.sh not found in ${THEMING_DIR}!"
 fi
 
+# Overwrite .bashrc if requested
 echo "Would you like to overwrite your current .bashrc with the justaguylinux .bashrc? (y/n)"
 read response
 
@@ -157,10 +143,9 @@ if [[ "$response" =~ ^[Yy]$ ]]; then
         mv ~/.bashrc ~/.bashrc.bak
         echo "Your current .bashrc has been moved to .bashrc.bak"
     fi
-    wget -O ~/.bashrc https://raw.githubusercontent.com/drewgrif/jag_dots/main/.bashrc
-    source ~/.bashrc
-    if [[ $? -eq 0 ]]; then
+    if wget -O ~/.bashrc https://raw.githubusercontent.com/drewgrif/jag_dots/main/.bashrc; then
         echo "justaguylinux .bashrc has been copied to ~/.bashrc"
+        source ~/.bashrc
     else
         echo "Failed to download justaguylinux .bashrc"
     fi
@@ -171,4 +156,3 @@ else
 fi
 
 echo "All scripts executed!"
-

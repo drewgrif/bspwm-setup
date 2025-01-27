@@ -1,33 +1,35 @@
 #!/bin/bash
 
-# Create a temporary directory
+# Create a temporary directory and ensure it is cleaned up on exit
 temp_dir=$(mktemp -d)
+trap 'rm -rf "$temp_dir"' EXIT
 
-# Check if sudo is available
-if ! command -v sudo &> /dev/null; then
-  echo "Error: sudo command not found. Please run this script as root."
-  return 1
+# Check if Git is installed
+if ! command -v git &> /dev/null; then
+  echo "Git not found, attempting to install..."
+  if ! sudo apt update && sudo apt install -y git; then
+    echo "Error: Failed to install Git."
+    return 1
+  fi
 fi
 
-# Install dependencies if not already installed (CMake and Git)
-for dep in cmake git; do
-  if ! command -v "$dep" &> /dev/null; then
-    echo "$dep not found, attempting to install..."
-    if ! sudo apt update && sudo apt install -y "$dep"; then
-      echo "Error: Failed to install $dep"
-      return 1
-    fi
+# Check if CMake is installed
+if ! command -v cmake &> /dev/null; then
+  echo "CMake not found, attempting to install..."
+  if ! sudo apt update && sudo apt install -y cmake; then
+    echo "Error: Failed to install CMake."
+    return 1
   fi
-done
+fi
 
-# Clone the fastfetch repository into the temporary directory
+# Clone the Fastfetch repository into the temporary directory
 echo "Cloning Fastfetch repository..."
 if ! git clone https://github.com/fastfetch-cli/fastfetch "$temp_dir/fastfetch"; then
   echo "Error: Failed to clone Fastfetch repository."
   return 1
 fi
 
-# Change to the fastfetch directory
+# Change to the Fastfetch directory
 cd "$temp_dir/fastfetch" || return 1
 
 # Run CMake to configure and build Fastfetch
@@ -45,10 +47,10 @@ if ! ./run.sh; then
   return 1
 fi
 
-# The fastfetch program should now be in the build directory
+# The Fastfetch program should now be in the build directory
 build_dir="$temp_dir/fastfetch/build"
 
-# Check if the fastfetch executable exists and move it to /usr/local/bin
+# Check if the Fastfetch executable exists and move it to /usr/local/bin
 if [ -f "$build_dir/fastfetch" ]; then
   echo "Installing Fastfetch to /usr/local/bin..."
   if ! sudo mv "$build_dir/fastfetch" /usr/local/bin/; then
@@ -59,9 +61,6 @@ else
   echo "Error: Fastfetch executable not found in the build directory."
   return 1
 fi
-
-# Clean up by removing the temporary directory
-rm -rf "$temp_dir"
 
 echo "Fastfetch has been installed successfully!"
 return 0

@@ -1,4 +1,4 @@
-# My BSPWM Configuration
+# My BSPWM Installation Script
 
 This repository contains my custom configuration files for **BSPWM** (Binary Space Partitioning Window Manager). The setup is designed to be lightweight, efficient, and visually appealing, while providing a highly customizable workflow.
 
