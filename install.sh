@@ -63,12 +63,17 @@ else
 fi
 
 # Check if Colloid-gtk-theme is installed
-if check_directory "$HOME/.themes/Colloid-Dark"; then
+if [ -d "$HOME/.themes/Colloid-Dark" ]; then
     echo "Colloid-gtk-theme is already installed."
 else
     echo "Installing Colloid-gtk-theme..."
-    install_theme "https://github.com/vinceliuice/Colloid-gtk-theme.git" "Colloid-gtk-theme" "yes | ./install.sh -c dark -t teal --tweaks black"
+    git clone https://github.com/vinceliuice/Colloid-gtk-theme.git
+    cd Colloid-gtk-theme || exit
+    yes | ./install.sh -c dark -t teal --tweaks black
+    cd ..
+    rm -rf Colloid-gtk-theme
 fi
+
 
 # Configure GTK settings
 configure_gtk_settings() {
