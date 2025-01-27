@@ -8,6 +8,10 @@ echo "
  |b|s|p|w|m| | |s|c|r|i|p|t| 
  +-+-+-+-+-+-+ +-+-+-+-+-+-+                                                                                                            
 "
+# Update user directories
+xdg-user-dirs-update
+mkdir -p ~/Screenshots/
+
 
 # Base directory of the script
 base_dir=$(dirname "$(realpath "$0")")
@@ -86,10 +90,6 @@ echo "Packages have been installed."
 # Enable necessary services
 systemctl enable avahi-daemon
 systemctl enable acpid
-
-# Update user directories
-xdg-user-dirs-update
-mkdir -p ~/Screenshots/
 
 # Run theming scripts relative to the script's directory
 theming_dir="$base_dir/theming"

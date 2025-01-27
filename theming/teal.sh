@@ -2,11 +2,21 @@
 
 # Function to check if a directory exists
 check_directory() {
-    if [ -d "$1" ]; then
-        return 0  # Directory exists
-    else
-        return 1  # Directory does not exist
-    fi
+    [ -d "$1" ] && return 0 || return 1
+}
+
+# Function to handle theme installation
+install_theme() {
+    local repo_url="$1"
+    local clone_dir="$2"
+    local install_script="$3"
+    
+    tmp_dir=$(mktemp -d) || return 1
+    cd "$tmp_dir" || return 1
+    git clone "$repo_url" || return 1
+    cd "$clone_dir" || return 1
+    $install_script
+    rm -rf "$tmp_dir"
 }
 
 # Check if Colloid-icon-theme is installed
@@ -14,15 +24,7 @@ if check_directory "$HOME/.local/share/icons/Colloid-Dark"; then
     echo "Colloid-icon-theme is already installed."
 else
     echo "Installing Colloid-icon-theme..."
-    cd ~/Downloads || exit
-    if [ -d "Colloid-icon-theme" ]; then
-        echo "Colloid-icon-theme repository already cloned. Skipping clone step."
-    else
-        git clone https://github.com/vinceliuice/Colloid-icon-theme.git
-    fi
-    cd Colloid-icon-theme || exit
-    ./install.sh -t teal -s default gruvbox everforest
-    rm -rf ~/Downloads/Colloid-icon-theme/
+    install_theme "https://github.com/vinceliuice/Colloid-icon-theme.git" "Colloid-icon-theme" "./install.sh -t teal -s default gruvbox everforest"
 fi
 
 # Check if Colloid-gtk-theme is installed
@@ -30,14 +32,5 @@ if check_directory "$HOME/.themes/Colloid-Dark"; then
     echo "Colloid-gtk-theme is already installed."
 else
     echo "Installing Colloid-gtk-theme..."
-    cd ~/Downloads || exit
-    if [ -d "Colloid-gtk-theme" ]; then
-        echo "Colloid-gtk-theme repository already cloned. Skipping clone step."
-    else
-        git clone https://github.com/vinceliuice/Colloid-gtk-theme.git
-    fi
-    cd Colloid-gtk-theme || exit
-    yes | ./install.sh -c dark -t teal --tweaks black
-    rm -rf ~/Downloads/Colloid-gtk-theme
+    install_theme "https://github.com/vinceliuice/Colloid-gtk-theme.git" "Colloid-gtk-theme" "yes | ./install.sh -c dark -t teal --tweaks black"
 fi
-
