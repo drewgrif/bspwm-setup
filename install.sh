@@ -9,143 +9,93 @@ echo "
  +-+-+-+-+-+-+ +-+-+-+-+-+-+                                                                                                            
 "
 
-# Check if git is installed
+# Base directory of the script
+base_dir=$(dirname "$(realpath "$0")")
+
+# Check if Git is installed
 if ! command -v git &> /dev/null; then
     echo "Git is not installed. Attempting to install Git..."
-    
-    # Use apt to install git
-    if command -v apt &> /dev/null; then
-        sudo apt update
-        sudo apt install git -y
-    else
-        echo "Cannot install Git automatically using apt. Please install Git manually and run this script again."
-        exit 1
-    fi
-    
-    # Check again if git is installed after attempting to install
-    if ! command -v git &> /dev/null; then
-        echo "Git installation failed. Please install Git manually and run this script again."
-        exit 1
+    if ! apt update && apt install git -y; then
+        echo "Error: Failed to install Git."
+        return 1
     fi
 fi
 
 echo "Git is installed. Continuing with the script..."
 
-# Update package list
-sudo apt update
-
-# Install packages
-sudo apt install -y \
+# Update package list and install required packages
+apt update && apt install -y \
+    bspwm \
+    sxhkd \
+    polybar \
     xorg \
-    xbacklight \
-    xbindkeys \
-    xvkbd \
-    xinput \
-    build-essential \
-    network-manager \
-    network-manager-gnome \
-    pamixer \
     thunar \
     thunar-archive-plugin \
     thunar-volman \
-    file-roller \
-    lxappearance \
-    dialog \
-    mtools \
-    dosfstools \
-    avahi-daemon \
-    acpi \
-    acpid \
-    gvfs-backends \
-    xfce4-power-manager \
-    pavucontrol \
-    pamixer \
-    pulsemixer \
-    nala \
-    micro \
-    feh \
-    fonts-recommended \
-    fonts-font-awesome \
-    fonts-terminus \
-    ttf-mscorefonts-installer \
-    papirus-icon-theme \
-    exa \
-    flameshot \
-    qimgv \
     rofi \
     dunst \
-    libnotify-bin \
-    xdotool \
-    unzip \
-    libnotify-dev \
-    --no-install-recommends gdm3 \
-    geany \
-    geany-plugin-addons \
-    geany-plugin-git-changebar \
-    geany-plugin-spellcheck \
-    geany-plugin-treebrowser \
-    geany-plugin-markdown \
-    geany-plugin-insertnum \
-    geany-plugin-lineoperations \
-    geany-plugin-automark \
-    bspwm \
-    sxhkd \
-    suckless-tools \
-    polybar \
-    tilix \
-    firefox-esr
+    lxappearance \
+    papirus-icon-theme \
+    pavucontrol \
+    feh \
+    fonts-font-awesome \
+    flameshot \
+    nala \
+    micro
 
-echo "Package installation complete!"
+echo "Packages have been installed."
 
-# Enable services
-sudo systemctl enable avahi-daemon
-sudo systemctl enable acpid
+# Enable necessary services
+systemctl enable avahi-daemon
+systemctl enable acpid
 
 # Update user directories
 xdg-user-dirs-update
 mkdir -p ~/Screenshots/
 
-# Set dynamic paths
-CONFIG_DIR="${HOME}/.config/bspwm"
-THEMING_DIR="${CONFIG_DIR}/theming"
-SCRIPTS_DIR="${CONFIG_DIR}/scripts"
+# Run theming scripts relative to the script's directory
+theming_dir="$base_dir/theming"
 
-# Run theming scripts using source
-for script in "picom.sh" "nerdfonts.sh" "teal.sh" "update-gtk.sh"; do
-    if [ -f "${THEMING_DIR}/${script}" ]; then
-        echo "Running ${script}..."
-        source "${THEMING_DIR}/${script}"
+declare -a theme_scripts=("picom.sh" "nerdfonts.sh" "teal.sh" "update-gtk.sh")
+for script in "${theme_scripts[@]}"; do
+    if [ -f "$theming_dir/$script" ]; then
+        echo "Running $script..."
+        source "$theming_dir/$script"
     else
-        echo "${script} not found in ${THEMING_DIR}!"
+        echo "Error: $script not found in $theming_dir!"
     fi
 done
 
-if [ -f "${SCRIPTS_DIR}/fastfetch.sh" ]; then
+# Run additional scripts relative to the script's directory
+scripts_dir="$base_dir/scripts"
+
+if [ -f "$scripts_dir/fastfetch.sh" ]; then
     echo "Running fastfetch.sh..."
-    source "${SCRIPTS_DIR}/fastfetch.sh"
+    source "$scripts_dir/fastfetch.sh"
 else
-    echo "fastfetch.sh not found in ${SCRIPTS_DIR}!"
+    echo "Error: fastfetch.sh not found in $scripts_dir!"
 fi
 
-if [ -f "${THEMING_DIR}/ghostty.sh" ]; then
+if [ -f "$theming_dir/ghostty.sh" ]; then
     echo "Running ghostty.sh..."
-    source "${THEMING_DIR}/ghostty.sh"
+    source "$theming_dir/ghostty.sh"
 else
-    echo "ghostty.sh not found in ${THEMING_DIR}!"
+    echo "Error: ghostty.sh not found in $theming_dir!"
 fi
 
-# Overwrite .bashrc if requested
+# Prompt to overwrite .bashrc
 echo "Would you like to overwrite your current .bashrc with the justaguylinux .bashrc? (y/n)"
-read response
+read -r response
 
 if [[ "$response" =~ ^[Yy]$ ]]; then
-    if [[ -f ~/.bashrc ]]; then
+    if [ -f ~/.bashrc ]; then
         mv ~/.bashrc ~/.bashrc.bak
         echo "Your current .bashrc has been moved to .bashrc.bak"
     fi
-    if wget -O ~/.bashrc https://raw.githubusercontent.com/drewgrif/jag_dots/main/.bashrc; then
+    wget -O ~/.bashrc https://raw.githubusercontent.com/drewgrif/jag_dots/main/.bashrc
+    source ~/.bashrc
+    if [[ $? -eq 0 ]]; then
         echo "justaguylinux .bashrc has been copied to ~/.bashrc"
-        source ~/.bashrc
     else
         echo "Failed to download justaguylinux .bashrc"
     fi
@@ -156,3 +106,4 @@ else
 fi
 
 echo "All scripts executed!"
+return 0
