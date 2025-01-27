@@ -25,21 +25,59 @@ echo "Git is installed. Continuing with the script..."
 
 # Update package list and install required packages
 apt update && apt install -y \
+    xorg \
+    xbacklight \
+    xbindkeys \
+    xvkbd \
+    xinput \
+    build-essential \
     bspwm \
     sxhkd \
     polybar \
-    xorg \
+    network-manager \
+    network-manager-gnome \
+    pamixer \
     thunar \
     thunar-archive-plugin \
     thunar-volman \
+    file-roller \
+    lxappearance \
+    dialog \
+    mtools \
+    dosfstools \
+    avahi-daemon \
+    acpi \
+    acpid \
+    gvfs-backends \
+    xfce4-power-manager \
+    pavucontrol \
+    pamixer \
+    pulsemixer \
+    feh \
+    fonts-recommended \
+    fonts-font-awesome \
+    fonts-terminus \
+    ttf-mscorefonts-installer \
+    papirus-icon-theme \
+    exa \
+    flameshot \
+    qimgv \
     rofi \
     dunst \
-    lxappearance \
-    papirus-icon-theme \
-    pavucontrol \
-    feh \
-    fonts-font-awesome \
-    flameshot \
+    libnotify-bin \
+    xdotool \
+    unzip \
+    libnotify-dev \
+    --no-install-recommends gdm3 \
+    geany \
+    geany-plugin-addons \
+    geany-plugin-git-changebar \
+    geany-plugin-spellcheck \
+    geany-plugin-treebrowser \
+    geany-plugin-markdown \
+    geany-plugin-insertnum \
+    geany-plugin-lineoperations \
+    geany-plugin-automark \
     nala \
     micro
 
