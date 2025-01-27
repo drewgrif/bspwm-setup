@@ -32,10 +32,11 @@ install_packages() {
         acpi acpid gvfs-backends xfce4-power-manager pavucontrol pamixer pulsemixer \
         feh fonts-recommended fonts-font-awesome fonts-terminus ttf-mscorefonts-installer \
         papirus-icon-theme exa flameshot qimgv rofi dunst libnotify-bin xdotool unzip \
-        libnotify-dev gdm3 geany geany-plugin-addons geany-plugin-git-changebar \
+        libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar \
         geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown \
         geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark \
-        nala micro --no-install-recommends
+        nala micro xdg-user-dirs-gtk \
+        --no-install-recommends gdm3
     echo "Package installation completed."
 }
 
@@ -145,20 +146,65 @@ install_ghostty() {
 }
 
 # Install GTK themes
-install_themes() {
-    echo "Installing GTK themes..."
-    themes=( "Arc-Theme" "Materia" "Adwaita" )
 
-    for theme in "${themes[@]}"; do
-        if [ -d "/usr/share/themes/$theme" ]; then
-            echo "Theme $theme is already installed. Skipping."
-        else
-            echo "Installing theme: $theme"
-            sudo apt install -y "$theme" || { echo "Error installing theme $theme."; exit 1; }
-        fi
-    done
-    echo "Theme installation completed."
+# Temporary directory for cloning the repositories
+TEMP_DIR_GTK="/tmp/Colloid-gtk-theme"
+TEMP_DIR_ICONS="/tmp/Colloid-icon-theme"
+
+# Function to check if a directory exists
+check_directory() {
+    if [ -d "$1" ]; then
+        return 0  # Directory exists
+    else
+        return 1  # Directory does not exist
+    fi
 }
+
+# Install Colloid-gtk-theme
+if check_directory "$HOME/.themes/Colloid-Dark"; then
+    echo "Colloid-gtk-theme is already installed."
+else
+    echo "Installing Colloid-gtk-theme..."
+
+    # Clone the Colloid-gtk-theme repository to the temporary directory
+    if [ -d "$TEMP_DIR_GTK" ]; then
+        echo "Temporary directory for Colloid-gtk-theme already exists. Skipping clone step."
+    else
+        git clone https://github.com/vinceliuice/Colloid-gtk-theme.git "$TEMP_DIR_GTK" || { echo "Git clone failed"; exit 1; }
+    fi
+
+    # Install the theme
+    cd "$TEMP_DIR_GTK" || { echo "Failed to access temporary directory"; exit 1; }
+    yes | ./install.sh -c dark -t teal --tweaks black || { echo "Theme installation failed"; exit 1; }
+
+    # Clean up the temporary directory
+    rm -rf "$TEMP_DIR_GTK" || { echo "Cleanup failed"; exit 1; }
+
+    echo "Colloid-gtk-theme installation completed."
+fi
+
+# Install Colloid-icon-theme
+if check_directory "$HOME/.icons/Colloid"; then
+    echo "Colloid-icon-theme is already installed."
+else
+    echo "Installing Colloid-icon-theme..."
+
+    # Clone the Colloid-icon-theme repository to the temporary directory
+    if [ -d "$TEMP_DIR_ICONS" ]; then
+        echo "Temporary directory for Colloid-icon-theme already exists. Skipping clone step."
+    else
+        git clone https://github.com/vinceliuice/Colloid-icon-theme.git "$TEMP_DIR_ICONS" || { echo "Git clone failed"; exit 1; }
+    fi
+
+    # Install the icon theme
+    cd "$TEMP_DIR_ICONS" || { echo "Failed to access temporary directory"; exit 1; }
+    ./install.sh -t teal -s default gruvbox everforest || { echo "Icon theme installation failed"; exit 1; }
+
+    # Clean up the temporary directory
+    rm -rf "$TEMP_DIR_ICONS" || { echo "Cleanup failed"; exit 1; }
+
+    echo "Colloid-icon-theme installation completed."
+fi
 
 # Modify GTK settings
 modify_gtk_settings() {
