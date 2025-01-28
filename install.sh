@@ -22,6 +22,8 @@ command_exists() {
     command -v "$1" &>/dev/null
 }
 
+
+
 # ========================================
 # Package Installation Section
 # ========================================
@@ -147,7 +149,7 @@ install_fonts() {
     done
 
     # Add custom TTF fonts
-    cp ../fonts/* ~/.local/share/fonts || echo "Warning: Error copying custom TTF fonts."
+    cp ~/fonts/* ~/.local/share/fonts || echo "Warning: Error copying custom TTF fonts."
     fc-cache -f || echo "Warning: Error rebuilding font cache."
     echo "Font installation completed."
 }
