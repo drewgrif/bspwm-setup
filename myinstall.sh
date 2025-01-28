@@ -60,8 +60,8 @@ install_packages() {
 # and ACPI (for power management) are enabled on the system for proper operation.
 enable_services() {
     echo "Enabling required services..."
-    systemctl enable avahi-daemon || echo "Warning: Failed to enable avahi-daemon."
-    systemctl enable acpid || echo "Warning: Failed to enable acpid."
+    sudo systemctl enable avahi-daemon || echo "Warning: Failed to enable avahi-daemon."
+    sudo systemctl enable acpid || echo "Warning: Failed to enable acpid."
     echo "Services enabled."
 }
 
