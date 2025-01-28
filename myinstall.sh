@@ -79,7 +79,7 @@ setup_user_dirs() {
     xdg-user-dirs-update || echo "Warning: Failed to update user directories."
     mkdir -p ~/Screenshots/ || echo "Warning: Failed to create Screenshots directory."
     echo "User directories updated."
-
+}
 # ========================================
 # Utility Functions
 # ========================================
@@ -87,7 +87,7 @@ command_exists() {
     command -v "$1" &>/dev/null
 }
 
-install_packages() {
+install_reqs() {
     echo "Updating package lists and installing required dependencies..."
     sudo apt install -y \
         build-essential cmake meson ninja-build git wget curl \
@@ -208,7 +208,9 @@ cd "$INSTALL_DIR/Colloid-icon-theme"
 echo "Starting installation process..."
 
 install_packages
-
+enable_services
+setup_user_dirs
+install_reqs
 install_picom
 install_fastfetch
 install_ghostty
