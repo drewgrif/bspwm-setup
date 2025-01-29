@@ -261,15 +261,26 @@ echo "GTK settings updated."
 # existing `.bashrc` with a predefined version from GitHub. If they agree, 
 # the `.bashrc` is downloaded and replaced, while the old one is backed up.
 replace_bashrc() {
-    echo "Do you want to replace your .bashrc with the default justaguylinux version? (y/n)"
-    read -r answer
-    if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-        cp ~/.bashrc ~/.bashrc.bak || echo "Warning: Failed to backup .bashrc."
-        wget -q https://raw.githubusercontent.com/justaguylinux/.bashrc -O ~/.bashrc || echo "Warning: Failed to replace .bashrc."
-        echo ".bashrc replaced. Backup saved as .bashrc.bak."
-    else
-        echo ".bashrc not replaced."
+echo "Would you like to overwrite your current .bashrc with the justaguylinux .bashrc? (y/n)"
+read response
+
+if [[ "$response" =~ ^[Yy]$ ]]; then
+    if [[ -f ~/.bashrc ]]; then
+        mv ~/.bashrc ~/.bashrc.bak
+        echo "Your current .bashrc has been moved to .bashrc.bak"
     fi
+    wget -O ~/.bashrc https://raw.githubusercontent.com/drewgrif/jag_dots/main/.bashrc
+    source ~/.bashrc
+    if [[ $? -eq 0 ]]; then
+        echo "justaguylinux .bashrc has been copied to ~/.bashrc"
+    else
+        echo "Failed to download justaguylinux .bashrc"
+    fi
+elif [[ "$response" =~ ^[Nn]$ ]]; then
+    echo "No changes have been made to ~/.bashrc"
+else
+    echo "Invalid input. Please enter 'y' or 'n'."
+fi
 }
 
 # ========================================
