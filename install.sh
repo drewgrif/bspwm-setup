@@ -105,7 +105,7 @@ install_reqs() {
 # ========================================
 # Picom Installation
 # ========================================
-install_picom() {
+install_ftlabs_picom() {
     if command_exists picom; then
         echo "Picom is already installed. Skipping installation."
     else
@@ -136,7 +136,7 @@ install_fastfetch() {
 # ========================================
 # Ghostty Installation
 # ========================================
-install_ghostty() {
+install_myghostty() {
     if command_exists ghostty; then
         echo "Ghostty is already installed. Skipping installation."
     else
@@ -292,9 +292,9 @@ install_packages
 enable_services
 setup_user_dirs
 install_reqs
-install_picom
+install_ftlabs_picom
 install_fastfetch
-install_ghostty
+install_myghostty
 install_fonts
 install_theming
 change_theming
