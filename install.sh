@@ -15,7 +15,7 @@ echo "
 INSTALL_DIR="$HOME/installation"
 ZIG_REQUIRED_VERSION="0.13.0"
 ZIG_BINARY="/usr/local/bin/zig"
-GTK_THEME="https://github.com/vinceliuice/Colloid-gtk-theme.git"
+GTK_THEME="https://github.com/vinceliuice/Orchis-theme.git"
 ICON_THEME="https://github.com/vinceliuice/Colloid-icon-theme.git"
 
 # ========================================
@@ -191,15 +191,15 @@ install_theming() {
     
 # Install GTK Theme
 echo "Installing GTK theme..."
-git clone "$GTK_THEME" "$INSTALL_DIR/Colloid-gtk-theme"
-cd "$INSTALL_DIR/Colloid-gtk-theme"
-yes | ./install.sh -c dark -t teal --tweaks black || die "Failed to install GTK theme."
+git clone "$GTK_THEME" "$INSTALL_DIR/Orchis-theme"
+cd "$INSTALL_DIR/Orchis-theme"
+yes | ./install.sh -c dark -t teal orange --tweaks black || die "Failed to install GTK theme."
 
 # Install Icon Theme
 echo "Installing Icon theme..."
 git clone "$ICON_THEME" "$INSTALL_DIR/Colloid-icon-theme"
 cd "$INSTALL_DIR/Colloid-icon-theme"
-./install.sh -t teal -s default gruvbox everforest || die "Failed to install Icon theme."
+./install.sh -t teal orange -s default gruvbox everforest || die "Failed to install Icon theme."
 }
 
 # ========================================
@@ -213,8 +213,8 @@ mkdir -p ~/.config/gtk-3.0
 # Write to ~/.config/gtk-3.0/settings.ini
 cat << EOF > ~/.config/gtk-3.0/settings.ini
 [Settings]
-gtk-theme-name=Colloid-Dark
-gtk-icon-theme-name=Colloid-Dark
+gtk-theme-name=Orchis-Teal-Dark
+gtk-icon-theme-name=Colloid-Teal-Everforest-Dark
 gtk-font-name=Sans 10
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=0
@@ -231,8 +231,8 @@ EOF
 
 # Write to ~/.gtkrc-2.0
 cat << EOF > ~/.gtkrc-2.0
-gtk-theme-name="Colloid-Dark"
-gtk-icon-theme-name="Colloid-Dark"
+gtk-theme-name="Orchis-Teal-Dark"
+gtk-icon-theme-name="Colloid-Teal-Everforest-Dark"
 gtk-font-name="Sans 10"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0

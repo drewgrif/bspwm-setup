@@ -6,14 +6,14 @@ This repository contains my custom configuration files for **BSPWM** (Binary Spa
 
 - **Custom Keybindings**: Optimized for productivity with easily accessible shortcuts.
 - **Polybar Integration**: A beautiful and functional bar with system stats, workspaces, and notifications.
-- **Themed Appearance**: Deep teal color palette featuring shades like `#6d9877`.
+- **Themed Appearance**: Deep teal color palette or orange
 - **Rofi Launcher**: For quick application launching and power menus.
 - **Picom for Compositing**: Adds smooth window animations and transparency.
 - **Autostart Applications**: Common utilities like network managers and notification daemons.
 
-## Dependencies
+## Inclusions
 
-Before using this configuration, ensure you have the following installed:
+Specialized configuration for:
 
 - **BSPWM**: The window manager itself.
 - **sxhkd**: For keybinding management.
@@ -21,7 +21,7 @@ Before using this configuration, ensure you have the following installed:
 - **Rofi**: Application launcher.
 - **Picom**: Compositor.
 - **Feh**: For wallpaper management.
-- **Tilix** (or your preferred terminal emulator).
+- **Ghostty**: Latest version from git.
 - **Roboto Mono Nerd Font**: For icons in Polybar.
 
 ## Installation

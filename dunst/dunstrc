@@ -52,10 +52,10 @@
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 3
+    frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#7A3F66" # default "#aaaaaa"
+    frame_color = "#DBC704" # default "#aaaaaa"
 
     # Define a color for the separator.
     # possible values are:
@@ -74,9 +74,10 @@
     idle_threshold = 120
 
     ### Text ### 
-    # font = Hack Nerd Font Mono Regular 10 # default Monospace 8
-	font = Ubuntu Condensed Regular 11 # default Monospace 8
-
+    font = Hack Nerd Font Regular 10 # default Monospace 8
+	# font = Andale Mono Regular 11 # default Monospace 8
+	# font= Monospace 11
+	
     # The spacing between lines.  If the height is smaller than the font height, it will get raised to the font height.
     line_height = 2 # 0
 
@@ -249,7 +250,7 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#1a1a1a"
+    background = "#161616"
     foreground = "#888888"
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
@@ -257,7 +258,7 @@
 
 [urgency_normal]
     # default #285577 ; from Polybar bar bg color  #2E3440 #3B4252
-    background = "#1A1A1A"
+    background = "#161616"
     foreground = "#ffffff"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
