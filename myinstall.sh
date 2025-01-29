@@ -203,6 +203,76 @@ cd "$INSTALL_DIR/Colloid-icon-theme"
 }
 
 # ========================================
+# GTK Theme Settings
+# ========================================
+
+change_theming() {
+# Ensure the directories exist
+mkdir -p ~/.config/gtk-3.0
+
+# Write to ~/.config/gtk-3.0/settings.ini
+cat << EOF > ~/.config/gtk-3.0/settings.ini
+[Settings]
+gtk-theme-name=Colloid-Dark
+gtk-icon-theme-name=Colloid-Dark
+gtk-font-name=Sans 10
+gtk-cursor-theme-name=Adwaita
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=1
+gtk-menu-images=1
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintfull
+EOF
+
+# Write to ~/.gtkrc-2.0
+cat << EOF > ~/.gtkrc-2.0
+gtk-theme-name="Colloid-Dark"
+gtk-icon-theme-name="Colloid-Dark"
+gtk-font-name="Sans 10"
+gtk-cursor-theme-name="Adwaita"
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=1
+gtk-menu-images=1
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintfull"
+EOF
+
+echo "GTK settings updated."
+
+}
+
+# ========================================
+# .bashrc Replacement Prompt
+# ========================================
+# Asks the user if they want to replace the .bashrc file with the one 
+# provided by justaguylinux
+# -------------------------------------------------------------------
+# This section prompts the user whether they'd like to replace their 
+# existing `.bashrc` with a predefined version from GitHub. If they agree, 
+# the `.bashrc` is downloaded and replaced, while the old one is backed up.
+replace_bashrc() {
+    echo "Do you want to replace your .bashrc with the default justaguylinux version? (y/n)"
+    read -r answer
+    if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+        cp ~/.bashrc ~/.bashrc.bak || echo "Warning: Failed to backup .bashrc."
+        wget -q https://raw.githubusercontent.com/justaguylinux/.bashrc -O ~/.bashrc || echo "Warning: Failed to replace .bashrc."
+        echo ".bashrc replaced. Backup saved as .bashrc.bak."
+    else
+        echo ".bashrc not replaced."
+    fi
+}
+
+# ========================================
 # Main Script Execution
 # ========================================
 echo "Starting installation process..."
@@ -216,6 +286,8 @@ install_fastfetch
 install_ghostty
 install_fonts
 install_theming
+change_theming
+replace_bashrc
 
 
 echo "All installations completed successfully!"
