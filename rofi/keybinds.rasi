@@ -1,7 +1,7 @@
 * {
     bg: #161616;
     background-color: @bg;
-    font: "JetBrainsMono Nerd Font 12";  /* Monospace font for alignment */
+    font: "Hack Nerd Font Regular 10";  /* Monospace font for alignment */
 }
 
 configuration {
@@ -28,7 +28,7 @@ mainbox {
 
 element {
     padding: 4 8;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
     background-color: #161616;
     border-radius: 5px;
 }
@@ -52,17 +52,17 @@ element-icon {
 
 element.selected.active {
     background-color: #161616;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
 }
 
 element.alternate.normal {
     background-color: #161616;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
 }
 
 element.alternate.active {
     background-color: #ff8f40;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
 }
 
 element.selected.normal {
@@ -72,12 +72,12 @@ element.selected.normal {
 
 element.normal.active {
     background-color: #161616;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
 }
 
 element.normal.normal {
     background-color: #161616;
-    text-color: #bfbdb6;
+    text-color: #F2F4F8;
 }
 
 element.normal.urgent {
@@ -107,7 +107,7 @@ entry {
 }
 
 prompt {
-    text-color: #80bfff;
+    text-color: #78a9ff;
     padding: 10 6 0 10;
     margin: 0 -2 0 0;
 }

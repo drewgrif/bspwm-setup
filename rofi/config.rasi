@@ -1,5 +1,5 @@
   * {
-        bg: #00141d;
+        bg: #161616;
         background-color: @bg;
     }
 
@@ -7,7 +7,7 @@
 	    show-icons: true;
 	    icon-theme: "Papirus";
 	    location: 0;
-	    font: "JetBrainsMono Nerd Font 12";	
+	    font: "Hack Nerd Font Regular 10";	
 	    display-drun: "Launch:";
     }
 
@@ -15,7 +15,7 @@
 	    width: 35%;
 	    transparency: "real";
 	    orientation: vertical;
-	    border-color: #4fc3f7;
+	    border-color: #DBC704;
         border-radius: 10px;
     }
 
@@ -29,13 +29,13 @@
 
     element {
 	    padding: 4 12;
-	    text-color: #00141d;
+	    text-color: #161616;
         border-radius: 5px;
     }
 
     element selected {
 	    text-color: #ffffff;
-	    background-color: #ffb454;
+	    background-color: #DBC704;
     }
 
     element-text {
@@ -51,41 +51,41 @@
     }
 
 	element.selected.active {
-		background-color: #00141d;
-		text-color: #bfbdb6;
+		background-color: #161616;
+		text-color: #F2F4F8;
 	}
  
 	element.alternate.normal {
-		background-color: #00141d;
-		text-color: #bfbdb6;
+		background-color: #161616;
+		text-color: #F2F4F8;
 	}
 
  
 	element.alternate.active {
 		background-color: #ff8f40;
-		text-color: #bfbdb6;
+		text-color: #F2F4F8;
 	}
 
 	element.selected.normal {
 		background-color: #ff8f40;
-		text-color: #00141d;
+		text-color: #161616;
 	}
  
 
 	element.normal.active {
-		background-color: #00141d;
-		text-color: #bfbdb6;
+		background-color: #161616;
+		text-color: #F2F4F8;
 	}
  
 
 	element.normal.normal {
-		background-color: #00141d;
-		text-color: #bfbdb6;
+		background-color: #161616;
+		text-color: #F2F4F8;
 	}
  
 	element.normal.urgent {
 		background-color: #f25d78;
-		text-color: #00141d;
+		text-color: #161616;
 	}
 
 	
@@ -115,7 +115,7 @@
     } 
 
     prompt {
-	    text-color: #80bfff;
+	    text-color: #78a9ff;
 	    padding: 10 6 0 10;
 	    margin: 0 -2 0 0;
     }
