@@ -42,7 +42,7 @@ picom --config ~/.config/bspwm/picom/picom.conf --animations -b &
 feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-5g2zr9_3440x1440.png &
 
 ## Polybar or tint
-~/.config/bspwm/polybar-bspwm &
+~/.config/bspwm/scripts/polybar-bspwm &
 
 # nextcloud
 # ~/scripts/Nextcloud-3.15.3-x86_64.AppImage &
@@ -57,5 +57,5 @@ feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-5g2zr9_3440x1440.png &
 if hash sxhkd >/dev/null 2>&1; then
 	pkill sxhkd
 	sleep 0.5
-	sxhkd -c "$HOME/.config/bspwm/sxhkdrc" &
+	sxhkd -c "$HOME/.config/bspwm/sxhkd/sxhkdrc" &
 fi

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Extract keybindings and descriptions and format into fixed-width columns
+keybindings=$(awk '
+    /^[a-z]/ && last { 
+        # Use printf for consistent column widths and padding
+        printf "%-30s | %-40s\n", $0, last 
+    }
+    { last="" } 
+    /^#/ { last=substr($0, 3) }' ~/.config/bspwm/sxhkd/sxhkdrc)
+
+# Pad the content with a fixed-width column approach
+formatted_keybindings=$(echo "$keybindings" | column -t -s '|')
+
+# Show in rofi and capture the selected line
+selected=$(echo "$formatted_keybindings" | rofi -dmenu -i -p "Keybindings" -line-padding 4 -hide-scrollbar -theme ~/.config/bspwm/rofi/keybinds.rasi)
+
+# Execute the selected keybinding's command (if needed)
+if [ -n "$selected" ]; then
+    command=$(echo "$selected" | awk -F'|' '{print $1}' | xargs)
+    nohup $command &>/dev/null &
+fi
