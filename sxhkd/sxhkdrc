@@ -12,7 +12,7 @@ super + Return
 
 # launch rofi menu
 super + space
-   	rofi -show drun -modi drun -line-padding 4 -hide-scrollbar -show-icons 
+   	rofi -show drun -modi drun -line-padding 4 -hide-scrollbar -show-icons -theme ~/.config/bspwm/rofi/config.rasi
 
 # launch floating terminal	
 super + shift + Return
@@ -20,7 +20,7 @@ super + shift + Return
 	
 # help with shortcuts
 super + h
-  ~/bspwm/scripts/help
+  ~/.config/bspwm/scripts/help
     
 # application launchers
 
