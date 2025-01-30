@@ -27,5 +27,14 @@ Specialized configuration for:
 ## Installation
 
 1. Clone this repository into your `.config` directory:
+
    ```bash
    git clone https://github.com/drewgrif/bspwm ~/.config/bspwm
+   ```
+   
+2. ```shell
+	cd ~/.config/bspwm
+	```
+3. ```shell
+	./install.sh
+   ```
