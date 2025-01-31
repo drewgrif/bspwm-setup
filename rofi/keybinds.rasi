@@ -12,7 +12,7 @@ configuration {
 }
 
 window { 
-    width: 35%;
+    width: 45%;
     transparency: "real";
     orientation: vertical;
     border-color: #4fc3f7;
@@ -87,7 +87,7 @@ element.normal.urgent {
 
 listview {
     columns: 1;  /* Show in a single column for better alignment */
-    lines: 30;
+    lines: 24;
     padding: 8 0;
     fixed-height: true;
     fixed-columns: true;

@@ -12,7 +12,7 @@
     }
 
     window { 
-	    width: 35%;
+	    width: 45%;
 	    transparency: "real";
 	    orientation: vertical;
 	    border-color: #DBC704;
@@ -92,7 +92,7 @@
 
     listview {
 	    columns: 2;
-	    lines: 9;
+	    lines: 16;
 	    padding: 8 0;
 	    fixed-height: true;
 	    fixed-columns: true;
