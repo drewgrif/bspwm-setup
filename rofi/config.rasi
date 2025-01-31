@@ -92,7 +92,7 @@
 
     listview {
 	    columns: 2;
-	    lines: 16;
+	    lines: 9;
 	    padding: 8 0;
 	    fixed-height: true;
 	    fixed-columns: true;
