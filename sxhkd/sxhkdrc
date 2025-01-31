@@ -49,7 +49,7 @@ super + o
 	obs
 
 # set window state
-super + shift + {t,space,f}
+super + shift + {t,space,f} #{tile,float,full}
 	bspc node -t {tiled,floating,fullscreen}
 
 # reload sxhkd
@@ -94,15 +94,15 @@ super + ctrl + {Left,Down,Up,Right}
 	
 # volume up
 super + Insert
-    ~/scripts/changevolume up
+    ~/.config/bspwm/changevolume up
 
 # volume down   
 super + Delete
-	~/scripts/changevolume down
+	~/.config/bspwm/changevolume down
 
 # volume mute	
 super + m
-	~/scripts/changevolume mute
+	~/.config/bspwm/scripts/changevolume mute
 	
 # dedicated volume keys
 {XF86AudioRaiseVolume,XF86AudioLowerVolume}
@@ -122,11 +122,11 @@ super + @Print
 	
 # redshift on
 super + alt + r
-	~/scripts/redshift-on
+	~/.config/bspwm/scripts/redshift-on
 
 # redshift off
 super + alt + b
-	~/scripts/redshift-off
+	~/.config/bspwm/scripts/redshift-off
 
 # resize windows equal
 super + @equal
