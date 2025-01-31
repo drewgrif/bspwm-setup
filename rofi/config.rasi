@@ -7,7 +7,7 @@
 	    show-icons: true;
 	    icon-theme: "Papirus";
 	    location: 0;
-	    font: "Hack Nerd Font Regular 10";	
+	    font: "JetBrainsMono Nerd Font 12";	
 	    display-drun: "Launch:";
     }
 

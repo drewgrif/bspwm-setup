@@ -1,7 +1,7 @@
 * {
     bg: #161616;
     background-color: @bg;
-    font: "Hack Nerd Font Regular 10";  /* Monospace font for alignment */
+    font: "JetBrainsMono Nerd Font 12";  /* Monospace font for alignment */
 }
 
 configuration {
