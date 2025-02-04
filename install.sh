@@ -99,7 +99,7 @@ install_reqs() {
         libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev \
         libxcb-xfixes0-dev libxext-dev uthash-dev \
         libgtk-4-dev libadwaita-1-dev \
-        pkg-config python3 python3-pip || { echo "Package installation failed."; exit 1; }
+        pkg-config || { echo "Package installation failed."; exit 1; }
 }
 
 # ========================================
