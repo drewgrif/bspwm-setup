@@ -162,10 +162,7 @@ install_myghostty() {
 install_fonts() {
     echo "Installing fonts..."
     mkdir -p ~/.local/share/fonts
-    fonts=( 
-        "FiraCode" "Hack" "JetBrainsMono" 
-        "RobotoMono" "SourceCodePro" "UbuntuMono"
-    )
+    fonts=( "FiraCode" "Hack" "JetBrainsMono" "RobotoMono" "SourceCodePro" "UbuntuMono" )
 
     for font in "${fonts[@]}"; do
         if [ -d ~/.local/share/fonts/$font ]; then

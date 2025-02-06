@@ -122,37 +122,21 @@ super + {1-9,0,F1,F2}
 super + shift + {1-9,0,F1,F2}
 	bspc node --to-desktop ^{1-9,10,11,12}
 
-# Resize Window: Shrink Left
+# Expand window width both sides
 super + ctrl + Left
-	bspc node -z left -40 0
+	bspc node -z right 40 0; bspc node -z left 40 0
 
-# Resize Window: Shrink Right
+# Shrink window width both sides 
 super + ctrl + Right
-	bspc node -z right -40 0
-
-# Resize Window: Expand Down
-super + ctrl + Down
-	bspc node -z bottom 0 40
-
-# Resize Window: Expand Up
-super + ctrl + Up
-	bspc node -z top 0 40
+	bspc node -z right -40 0; bspc node -z left -40 0
 
 # Resize Window: Shrink Down
 super + ctrl + Down
-	bspc node -z bottom 0 -40
+	bspc node -z top 0 40; bspc node -z bottom 40 0
 
 # Resize Window: Shrink Up
 super + ctrl + Up
-	bspc node -z top 0 -40
-
-# Resize Window: Expand Left
-super + ctrl + Left
-	bspc node -z left 40 0
-
-# Resize Window: Expand Right
-super + ctrl + Right
-	bspc node -z right 40 0
+	bspc node -z top 0 -40; bspc node -z bottom -40 0
 
 # Increase Volume (Custom Script)
 super + Insert
