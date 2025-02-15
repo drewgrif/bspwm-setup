@@ -18,7 +18,6 @@ bspc config active_border_color		"#88C099"
 bspc config focused_border_color "#88C099"
 bspc config normal_border_color "#282828"
 
-# bspc rule -a "*" split_dir=east
 bspc rule -a \* rectangle 1280x720+0+0 center=true
 bspc rule -a qimgv state=floating
 # bspc rule -a sxiv state=floating
@@ -34,6 +33,10 @@ bspc rule -a Lxappearance state=floating layer=normal
 # bspc rule -a discord desktop='^8' follow=on
 
 # start up stuff
+# if you want i3 style columns with equal size uncomment the following 2 lines:
+# bspc rule -a "*" split_dir=east
+# ~/.config/bspwm/scripts/autoresize.sh &
+
 xsetroot -cursor_name left_ptr &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 dunst -config ~/.config/bspwm/dunst/dunstrc &

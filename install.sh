@@ -46,7 +46,7 @@ install_packages() {
         libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar \
         geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown \
         geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark \
-        nala micro xdg-user-dirs-gtk \
+        nala micro xdg-user-dirs-gtk tilix \
         --no-install-recommends gdm3 || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
