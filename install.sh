@@ -12,11 +12,23 @@ echo "
  +-+-+-+-+-+-+-+-+-+-+-+-+-+                                                                            
 "
 
+CLONED_DIR="$HOME/bspwm-setup"
+CONFIG_DIR="$HOME/.config/bspwm"
 INSTALL_DIR="$HOME/installation"
 ZIG_REQUIRED_VERSION="0.13.0"
 ZIG_BINARY="/usr/local/bin/zig"
 GTK_THEME="https://github.com/vinceliuice/Orchis-theme.git"
 ICON_THEME="https://github.com/vinceliuice/Colloid-icon-theme.git"
+
+# ========================================
+# User Confirmation Before Proceeding
+# ========================================
+echo "This script will install and configure bspwm on your Debian system."
+read -p "Do you want to continue? (y/n) " confirm
+if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo "Installation aborted."
+    exit 1
+fi
 
 # ========================================
 # Initialization
@@ -29,6 +41,38 @@ cleanup() {
     echo "Installation directory removed."
 }
 trap cleanup EXIT
+
+
+# ========================================
+# Check for Existing BSPWM Configuration
+# ========================================
+check_bspwm() {
+    if [ -d "$CONFIG_DIR" ]; then
+        echo "An existing ~/.config/bspwm directory was found."
+        read -p "Would you like to back it up before proceeding? (y/n) " response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+            backup_dir="$HOME/.config/bspwm_backup_$timestamp"
+            mv "$CONFIG_DIR" "$backup_dir"
+            echo "Backup created at $backup_dir"
+        else
+            echo "Skipping backup. Your existing config will be overwritten."
+        fi
+    fi
+}
+
+# ========================================
+# Move Config Files to ~/.config/bspwm
+# ========================================
+setup_bspwm_config() {
+    echo "Moving configuration files..."
+    mkdir -p "$CONFIG_DIR"
+    cp -r "$CLONED_DIR/bspwmrc" "$CONFIG_DIR/" || echo "Warning: Failed to copy bspwmrc."
+	for dir in dunst fonts picom polybar rofi scripts sxhkd wallpaper; do
+		cp -r "$CLONED_DIR/$dir" "$CONFIG_DIR/" || echo "Warning: Failed to copy $dir."
+	done
+    echo "BSPWM configuration files copied successfully."
+}
 
 # ========================================
 # Package Installation Section
@@ -46,8 +90,9 @@ install_packages() {
         libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar \
         geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown \
         geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark \
+        pipewire-audio \
         nala micro xdg-user-dirs-gtk tilix \
-        --no-install-recommends gdm3 || echo "Warning: Package installation failed."
+        --install-recommends arctica-greeter || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
 
@@ -285,6 +330,8 @@ fi
 # ========================================
 echo "Starting installation process..."
 
+check_bspwm
+setup_bspwm_config
 install_packages
 enable_services
 setup_user_dirs
