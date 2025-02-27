@@ -26,14 +26,12 @@ Specialized configuration for:
 
 ## Installation
 
-Clone this repository into your `.config` directory:
-
 ```bash
-git clone https://github.com/drewgrif/bspwm ~/.config/bspwm
+git clone https://github.com/drewgrif/bspwm-setup ~
 ```
    
 ```shell
-cd ~/.config/bspwm
+cd ~/bspwn-setup
 ```
 	
 ```shell
