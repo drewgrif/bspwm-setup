@@ -1,0 +1,190 @@
+#!/bin/bash
+
+temp_dialogrc=$(mktemp)
+
+cat <<EOF > "$temp_dialogrc"
+# Butter Bean Linux - Dark Dialog Color Theme
+aspect = 0
+separate_widget = ""
+tab_len = 0
+visit_items = OFF
+use_shadow = OFF
+use_colors = ON
+
+# Outer screen background
+screen_color = (WHITE,BLACK,OFF)
+
+# Shadows (optional if you ever enable them)
+shadow_color = (BLACK,BLACK,OFF)
+
+# Dialog box (inside area where options are listed)
+dialog_color = (WHITE,BLACK,OFF)
+
+# Dialog box title
+title_color = (CYAN,BLACK,ON)
+
+# Dialog box border
+border_color = (CYAN,BLACK,OFF)
+
+# Buttons (OK/Cancel) - active and inactive
+button_active_color = (BLACK,CYAN,ON)
+button_inactive_color = (WHITE,BLACK,OFF)
+
+# Button keys (the highlighted hotkey letter inside buttons)
+button_key_active_color = (BLACK,CYAN,ON)
+button_key_inactive_color = (CYAN,BLACK,OFF)
+
+# Button labels (text inside buttons)
+button_label_active_color = (BLACK,CYAN,ON)
+button_label_inactive_color = (WHITE,BLACK,OFF)
+
+# Input boxes (if used later)
+inputbox_color = (WHITE,BLACK,OFF)
+inputbox_border_color = (CYAN,BLACK,OFF)
+
+# Search box (if used)
+searchbox_color = (WHITE,BLACK,OFF)
+searchbox_title_color = (CYAN,BLACK,ON)
+searchbox_border_color = (CYAN,BLACK,OFF)
+
+# Position indicator (for file or menu navigation, if you add)
+position_indicator_color = (CYAN,BLACK,ON)
+
+# Menu box (checklist area)
+menubox_color = (WHITE,BLACK,OFF)
+menubox_border_color = (CYAN,BLACK,OFF)
+
+# Unselected item text in checklist
+item_color = (WHITE,BLACK,OFF)
+
+# Selected item text in checklist
+item_selected_color = (BLACK,CYAN,ON)
+
+# Tag (the checkbox itself)
+tag_color = (WHITE,BLACK,OFF)
+tag_selected_color = (BLACK,CYAN,ON)
+
+tag_key_color = (RED,BLACK,OFF)
+tag_key_selected_color = (RED,BLUE,ON)
+
+# Checkbox colors
+check_color = (WHITE,BLACK,OFF)
+check_selected_color = (BLACK,CYAN,ON)
+
+# Up/down arrows (in case of overflow)
+uarrow_color = (CYAN,BLACK,ON)
+darrow_color = (CYAN,BLACK,ON)
+
+# Item help text (if used in other widgets)
+itemhelp_color = (WHITE,BLACK,OFF)
+
+# Form field colors (if you later use forms)
+form_active_text_color = (BLACK,CYAN,ON)
+form_text_color = (WHITE,BLACK,OFF)
+form_item_readonly_color = (WHITE,BLACK,OFF)
+
+# Gauge (progress bar) color (if used later)
+gauge_color = (CYAN,BLACK,ON)
+
+# Borders for nested boxes (very rare)
+border2_color = (CYAN,BLACK,OFF)
+inputbox_border2_color = (CYAN,BLACK,OFF)
+searchbox_border2_color = (CYAN,BLACK,OFF)
+menubox_border2_color = (CYAN,BLACK,OFF)
+EOF
+
+
+export DIALOGRC="$temp_dialogrc"
+
+# List of fonts (Nerd Fonts & Debian Fonts combined)
+fonts=(
+	"CascadiaCode" "Nerd Font - CascadiaCode" OFF
+    "FiraCode" "Nerd Font - Monospaced programming font" OFF
+    "Hack" "Nerd Font - Bitstream Vera Mono" OFF
+    "Inconsolata" "Nerd Font - Inconsolata" OFF
+    "JetBrainsMono" "Preselected for DWM SLSTATUS BAR" OFF
+    "Meslo" "Nerd Font - Meslo" OFF
+    "Mononoki" "Nerd Font - Mononoki" OFF
+    "RobotoMono" "Preselected for Polybar" ON
+    "SourceCodePro" "Preselected for Terminals and Geany" ON
+    "UbuntuMono" "Preselcted for Dunst" ON
+    "fonts-recommended" "Debian Font - Metapackage" OFF
+    "fonts-font-awesome" "Font Awesome 4" OFF
+    "ttf-mscorefonts-installer" "Microsoft TTFs" OFF
+)
+
+# Show combined dialog checklist
+selection=$(dialog --title "Select Fonts to Install" \
+--backtitle "Butter Bean Linux - Font Installer" \
+--checklist "Choose fonts to install:" 25 90 15 \
+"${fonts[@]}" 3>&1 1>&2 2>&3)
+
+# Handle cancel
+if [ $? -ne 0 ]; then
+    clear
+    echo "Installation canceled."
+    rm -f "$temp_dialogrc"
+    exit 1
+fi
+
+# Parse selection into array
+read -ra selected_fonts <<< "$selection"
+for i in "${!selected_fonts[@]}"; do
+    selected_fonts[$i]=$(echo "${selected_fonts[$i]}" | tr -d '"')
+done
+
+# Function to install selected fonts
+install_fonts() {
+    echo "Installing selected fonts..."
+    mkdir -p ~/.local/share/fonts
+
+    for font in "${selected_fonts[@]}"; do
+        clean_font=$(echo "$font" | sed 's/^\[.*\] //')  # Strip [Nerd] or [Debian]
+
+        case "$clean_font" in
+            CascadiaCode|FiraCode|Hack|Inconsolata|JetBrainsMono|Meslo|Mononoki|RobotoMono|SourceCodePro|UbuntuMono)
+                if [ -d ~/.local/share/fonts/$clean_font ]; then
+                    echo "Font $clean_font already installed. Skipping."
+                else
+                    echo "Downloading Nerd Font: $clean_font"
+                    wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/${clean_font}.zip" -P /tmp || {
+                        echo "Failed to download $clean_font"
+                        continue
+                    }
+                    unzip -q /tmp/${clean_font}.zip -d ~/.local/share/fonts/$clean_font/ || {
+                        echo "Failed to extract $clean_font"
+                        continue
+                    }
+                    rm /tmp/${clean_font}.zip
+                fi
+                ;;
+            fonts-recommended|fonts-font-awesome|ttf-mscorefonts-installer)
+                echo "Installing $font from Debian repository..."
+                sudo apt-get install -y "$font" || {
+                    echo "Failed to install $font"
+                    continue
+                }
+                ;;
+            *)
+                echo "Unknown font: $clean_font — skipping."
+                ;;
+        esac
+    done
+
+    fc-cache -f || echo "Warning: Failed to rebuild font cache."
+    echo "Font installation completed."
+}
+
+# Run installer if fonts were selected
+if [ ${#selected_fonts[@]} -gt 0 ]; then
+    install_fonts
+else
+    echo "No fonts selected."
+fi
+
+# Cleanup
+rm -f "$temp_dialogrc"
+
+# Clear screen at end
+clear
+echo "All done!"
