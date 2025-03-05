@@ -30,6 +30,13 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
+# ============================================
+# Install Nala First
+# ============================================
+echo "Installing nala..."
+sudo apt update
+sudo apt install -y nala || die "Failed to install nala."
+
 # ========================================
 # Initialization
 # ========================================
@@ -80,19 +87,7 @@ setup_bspwm_config() {
 # Install required packages
 install_packages() {
     echo "Installing required packages..."
-    sudo apt install -y \
-        xorg xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar \
-        network-manager network-manager-gnome pamixer thunar thunar-archive-plugin \
-        thunar-volman file-roller lxappearance dialog mtools dosfstools avahi-daemon \
-        acpi acpid gvfs-backends xfce4-power-manager pavucontrol pamixer pulsemixer \
-        feh fonts-recommended fonts-font-awesome fonts-terminus ttf-mscorefonts-installer \
-        papirus-icon-theme exa flameshot qimgv rofi dunst libnotify-bin xdotool unzip \
-        libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar \
-        geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown \
-        geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark \
-        pipewire-audio \
-        nala micro xdg-user-dirs-gtk tilix \
-        --install-recommends arctica-greeter || echo "Warning: Package installation failed."
+    sudo apt nala -y xorg xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman file-roller lxappearance dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pamixer pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus ttf-mscorefonts-installer papirus-icon-theme exa flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark pipewire-audio nala micro xdg-user-dirs-gtk tilix --install-recommends arctica-greeter || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
 
@@ -134,17 +129,7 @@ command_exists() {
 
 install_reqs() {
     echo "Updating package lists and installing required dependencies..."
-    sudo apt install -y \
-        build-essential cmake meson ninja-build git wget curl \
-        libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev \
-        libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev \
-        libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev \
-        libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev \
-        libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev \
-        libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev \
-        libxcb-xfixes0-dev libxext-dev uthash-dev \
-        libgtk-4-dev libadwaita-1-dev \
-        pkg-config || { echo "Package installation failed."; exit 1; }
+    sudo apt nala -y build-essential cmake meson ninja-build git wget curl libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev uthash-dev libgtk-4-dev libadwaita-1-dev pkg-config || { echo "Package installation failed."; exit 1; }
 }
 
 # ========================================
