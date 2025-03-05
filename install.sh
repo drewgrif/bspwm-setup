@@ -153,6 +153,11 @@ install_ftlabs_picom() {
 # Fastfetch Installation
 # ========================================
 install_fastfetch() {
+	if command_exists fastfetch; then
+        echo "Fastfetch is already installed. Skipping installation."
+        return
+    fi	
+	
     echo "Installing Fastfetch..."
     git clone https://github.com/fastfetch-cli/fastfetch "$INSTALL_DIR/fastfetch" || { echo "Failed to clone Fastfetch repository."; return 1; }
     cd "$INSTALL_DIR/fastfetch" || { echo "Failed to access Fastfetch directory."; return 1; }
