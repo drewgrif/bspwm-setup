@@ -34,8 +34,8 @@ fi
 # Install Nala First
 # ============================================
 echo "Installing nala..."
-sudo apt update
-sudo apt install -y nala || die "Failed to install nala."
+sudo apt-get update
+sudo apt-get install -y nala || die "Failed to install nala."
 
 # ========================================
 # Initialization
@@ -196,23 +196,36 @@ install_myghostty() {
 # the font cache using `fc-cache`.
 install_fonts() {
     echo "Installing fonts..."
+
     mkdir -p ~/.local/share/fonts
+
     fonts=( "FiraCode" "Hack" "JetBrainsMono" "RobotoMono" "SourceCodePro" "UbuntuMono" )
 
     for font in "${fonts[@]}"; do
-        if [ -d ~/.local/share/fonts/$font ]; then
+        if ls ~/.local/share/fonts/$font/*.ttf &>/dev/null; then
             echo "Font $font is already installed. Skipping."
         else
             echo "Installing font: $font"
-            wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip" -P /tmp || { echo "Warning: Error downloading font $font."; continue; }
-            unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/ || echo "Warning: Error extracting font $font."
+            wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$font.zip" -P /tmp || {
+                echo "Warning: Error downloading font $font."
+                continue
+            }
+            unzip -q /tmp/$font.zip -d ~/.local/share/fonts/$font/ || {
+                echo "Warning: Error extracting font $font."
+                continue
+            }
             rm /tmp/$font.zip
         fi
     done
 
-    # Add custom TTF fonts
-    cp ~/.config/bspwm/fonts/* ~/.local/share/fonts || echo "Warning: Error copying custom TTF fonts."
+    # Add custom TTF fonts from your suckless config folder (optional step if you use custom fonts)
+    if [ -d ~/.config/suckless/fonts ]; then
+        cp ~/.config/suckless/fonts/*.ttf ~/.local/share/fonts/ 2>/dev/null || echo "Warning: No custom fonts found in ~/.config/suckless/fonts."
+    fi
+
+    # Refresh font cache
     fc-cache -f || echo "Warning: Error rebuilding font cache."
+
     echo "Font installation completed."
 }
 
@@ -220,19 +233,30 @@ install_fonts() {
 # GTK Theme Installation
 # ========================================
 install_theming() {
-    
-# Install GTK Theme
-echo "Installing GTK theme..."
-git clone "$GTK_THEME" "$INSTALL_DIR/Orchis-theme"
-cd "$INSTALL_DIR/Orchis-theme"
-yes | ./install.sh -c dark -t teal orange --tweaks black || die "Failed to install GTK theme."
+    GTK_THEME_NAME="Orchis-Teal-Dark"
+    ICON_THEME_NAME="Colloid-Teal-Everforest-Dark"
 
-# Install Icon Theme
-echo "Installing Icon theme..."
-git clone "$ICON_THEME" "$INSTALL_DIR/Colloid-icon-theme"
-cd "$INSTALL_DIR/Colloid-icon-theme"
-./install.sh -t teal orange -s default gruvbox everforest || die "Failed to install Icon theme."
+    echo "Checking for installed themes..."
+
+    if [ -d "$HOME/.themes/$GTK_THEME_NAME" ]; then
+        echo "GTK Theme '$GTK_THEME_NAME' already installed. Skipping."
+    else
+        echo "Installing GTK theme..."
+        git clone "$GTK_THEME" "$INSTALL_DIR/Orchis-theme" || die "Failed to clone Orchis theme."
+        cd "$INSTALL_DIR/Orchis-theme" || die "Failed to enter Orchis theme directory."
+        yes | ./install.sh -c dark -t teal orange --tweaks black
+    fi
+
+    if [ -d "$HOME/.icons/$ICON_THEME_NAME" ]; then
+        echo "Icon Theme '$ICON_THEME_NAME' already installed. Skipping."
+    else
+        echo "Installing Icon theme..."
+        git clone "$ICON_THEME" "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to clone Colloid icon theme."
+        cd "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to enter Colloid icon theme directory."
+        ./install.sh -t teal orange -s default gruvbox everforest
+    fi
 }
+
 
 # ========================================
 # GTK Theme Settings
