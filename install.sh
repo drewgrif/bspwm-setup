@@ -30,7 +30,7 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-sudo apt update && sudo apt upgrade -y && sudo apt clean
+sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get clean
 
 # ========================================
 # Initialization
@@ -82,7 +82,7 @@ setup_bspwm_config() {
 # Install required packages
 install_packages() {
     echo "Installing required packages..."
-    sudo apt install -y xorg xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman file-roller lxappearance dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pamixer pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus ttf-mscorefonts-installer papirus-icon-theme exa flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark pipewire-audio nala micro nala xdg-user-dirs-gtk tilix --install-recommends arctica-greeter || echo "Warning: Package installation failed."
+    sudo apt-get install -y xorg xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman file-roller lxappearance dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pamixer pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus ttf-mscorefonts-installer papirus-icon-theme exa flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark pipewire-audio nala micro nala xdg-user-dirs-gtk tilix --install-recommends arctica-greeter || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
 
@@ -124,7 +124,7 @@ command_exists() {
 
 install_reqs() {
     echo "Updating package lists and installing required dependencies..."
-    sudo apt install -y build-essential cmake meson ninja-build git wget curl libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev uthash-dev libgtk-4-dev libadwaita-1-dev pkg-config || { echo "Package installation failed."; exit 1; }
+    sudo apt-get install -y build-essential cmake meson ninja-build git wget curl libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev uthash-dev libgtk-4-dev libadwaita-1-dev pkg-config || { echo "Package installation failed."; exit 1; }
 }
 
 # ========================================
@@ -231,26 +231,26 @@ install_theming() {
     GTK_THEME_NAME="Orchis-Teal-Dark"
     ICON_THEME_NAME="Colloid-Teal-Everforest-Dark"
 
-    echo "Checking for installed themes..."
-
-    if [ -d "$HOME/.themes/$GTK_THEME_NAME" ]; then
-        echo "GTK Theme '$GTK_THEME_NAME' already installed. Skipping."
-    else
-        echo "Installing GTK theme..."
-        git clone "$GTK_THEME" "$INSTALL_DIR/Orchis-theme" || die "Failed to clone Orchis theme."
-        cd "$INSTALL_DIR/Orchis-theme" || die "Failed to enter Orchis theme directory."
-        yes | ./install.sh -c dark -t teal orange --tweaks black
+    if [ -d "$HOME/.themes/$GTK_THEME_NAME" ] || [ -d "$HOME/.icons/$ICON_THEME_NAME" ]; then
+        echo "One or more themes/icons already installed. Skipping theming installation."
+        return
     fi
 
-    if [ -d "$HOME/.icons/$ICON_THEME_NAME" ]; then
-        echo "Icon Theme '$ICON_THEME_NAME' already installed. Skipping."
-    else
-        echo "Installing Icon theme..."
-        git clone "$ICON_THEME" "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to clone Colloid icon theme."
-        cd "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to enter Colloid icon theme directory."
-        ./install.sh -t teal orange -s default gruvbox everforest
-    fi
+    echo "Installing GTK and Icon themes..."
+
+    # GTK Theme Installation
+    git clone "$GTK_THEME" "$INSTALL_DIR/Orchis-theme" || die "Failed to clone Orchis theme."
+    cd "$INSTALL_DIR/Orchis-theme" || die "Failed to enter Orchis theme directory."
+    yes | ./install.sh -c dark -t teal orange --tweaks black
+
+    # Icon Theme Installation
+    git clone "$ICON_THEME" "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to clone Colloid icon theme."
+    cd "$INSTALL_DIR/Colloid-icon-theme" || die "Failed to enter Colloid icon theme directory."
+    ./install.sh -t teal orange -s default gruvbox everforest
+
+    echo "Theming installation complete."
 }
+
 
 
 # ========================================
