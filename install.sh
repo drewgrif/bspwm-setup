@@ -167,19 +167,18 @@ install_fastfetch() {
 # Ghostty Installation
 # ========================================
 install_myghostty() {
-    if command_exists ghostty; then
-        echo "Ghostty is already installed. Skipping installation."
-    else
-        echo "Installing Ghostty..."
-        git clone https://github.com/drewgrif/myghostty "$INSTALL_DIR/myghostty" || { echo "Failed to clone Ghostty repository."; return 1; }
-        if [ -f "$INSTALL_DIR/myghostty/install_ghostty.sh" ]; then
-            bash "$INSTALL_DIR/myghostty/install_ghostty.sh" || { echo "Ghostty installation script failed."; return 1; }
-        fi
-        mkdir -p "$HOME/.config/ghostty"
-        cp "$INSTALL_DIR/myghostty/config" "$HOME/.config/ghostty/" || { echo "Failed to copy Ghostty config."; return 1; }
-        echo "Ghostty installation complete."
+    if command -v ghostty &>/dev/null; then
+        echo "Ghostty is already installed. Skipping."
+        return
     fi
+
+    echo "Cloning and installing Ghostty..."
+    git clone https://github.com/drewgrif/myghostty "$INSTALL_DIR/myghostty" || die "Failed to clone Ghostty."
+    bash "$INSTALL_DIR/myghostty/install_ghostty.sh" || die "Ghostty installation failed."
+
+    echo "Ghostty installation complete."
 }
+
 
 # ========================================
 # Font Installation
@@ -250,8 +249,6 @@ install_theming() {
 
     echo "Theming installation complete."
 }
-
-
 
 # ========================================
 # GTK Theme Settings
