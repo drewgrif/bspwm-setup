@@ -160,23 +160,49 @@ install_fastfetch() {
     cmake --build build || { echo "Build process failed."; return 1; }
     sudo mv build/fastfetch /usr/local/bin/ || { echo "Failed to move Fastfetch binary to /usr/local/bin/."; return 1; }
     echo "Fastfetch installation complete."
+    
+	echo "Setting up fastfetch configuration..."
+	
+	# Ensure the target directory exists
+	mkdir -p "$HOME/.config/fastfetch"
+	
+	# Clone the repository (shallow, sparse) and copy only the fastfetch config folder
+	git clone --depth=1 --filter=blob:none --sparse "https://github.com/drewgrif/jag_dots.git" "$HOME/tmp_jag_dots"
+	cd "$HOME/tmp_jag_dots"
+	git sparse-checkout set .config/fastfetch
+	
+	# Move the folder into place
+	mv .config/fastfetch "$HOME/.config/"
+	
+	# Cleanup
+	cd && rm -rf "$HOME/tmp_jag_dots"
+	
+	echo "Fastfetch configuration setup complete."
+   
 }
 
-
-# ========================================
-# Ghostty Installation
-# ========================================
-install_myghostty() {
-    if command -v ghostty &>/dev/null; then
-        echo "Ghostty is already installed. Skipping."
+# ============================================
+# Install Wezterm
+# ============================================
+install_wezterm() {
+    if command_exists wezterm; then
+        echo "Wezterm is already installed. Skipping installation."
         return
     fi
 
-    echo "Cloning and installing Ghostty..."
-    git clone https://github.com/drewgrif/myghostty "$INSTALL_DIR/myghostty" || die "Failed to clone Ghostty."
-    bash "$INSTALL_DIR/myghostty/install_ghostty.sh" || die "Ghostty installation failed."
+    echo "Installing Wezterm..."
 
-    echo "Ghostty installation complete."
+    WEZTERM_URL="https://github.com/wezterm/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Debian12.deb"
+    TMP_DEB="/tmp/wezterm.deb"
+
+    wget -O "$TMP_DEB" "$WEZTERM_URL" || die "Failed to download Wezterm."
+    sudo apt install -y "$TMP_DEB" || die "Failed to install Wezterm."
+    rm -f "$TMP_DEB"
+
+    echo "Downloading Wezterm configuration..."
+    wget -O "$HOME/.wezterm.lua" "https://raw.githubusercontent.com/drewgrif/jag_dots/main/.wezterm.lua" || die "Failed to download wezterm config."
+
+    echo "Wezterm installation and configuration complete."
 }
 
 
@@ -344,8 +370,7 @@ setup_user_dirs
 install_reqs
 install_ftlabs_picom
 install_fastfetch
-install_myghostty
-install_fonts
+install_wezterm
 install_theming
 change_theming
 replace_bashrc
