@@ -8,7 +8,7 @@ super + shift + b
 
 # Launch Terminal (Ghostty)
 super + Return
-	ghostty
+	wezterm
 
 # Launch Rofi Application Menu
 super + space

@@ -17,7 +17,7 @@ cleanup() {
 # Function to install or update zen-browser
 install_zen() {
     echo "Retrieving the latest zen-browser tar.gz file..."
-    wget "https://github.com/zen-browser/desktop/releases/download/1.8.2b/zen.linux-x86_64.tar.xz" -O "$TAR_FILE"
+    wget "https://github.com/zen-browser/desktop/releases/download/1.9b/zen.linux-x86_64.tar.xz" -O "$TAR_FILE"
 
     echo "Extracting files to /opt directory..."
     sudo tar -xvf "$TAR_FILE" -C /opt/
