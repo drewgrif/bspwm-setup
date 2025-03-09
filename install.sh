@@ -15,8 +15,6 @@ echo "
 CLONED_DIR="$HOME/bspwm-setup"
 CONFIG_DIR="$HOME/.config/bspwm"
 INSTALL_DIR="$HOME/installation"
-ZIG_REQUIRED_VERSION="0.13.0"
-ZIG_BINARY="/usr/local/bin/zig"
 GTK_THEME="https://github.com/vinceliuice/Orchis-theme.git"
 ICON_THEME="https://github.com/vinceliuice/Colloid-icon-theme.git"
 
@@ -124,24 +122,24 @@ command_exists() {
 
 install_reqs() {
     echo "Updating package lists and installing required dependencies..."
-    sudo apt-get install -y build-essential cmake meson ninja-build git wget curl libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev uthash-dev libgtk-4-dev libadwaita-1-dev pkg-config || { echo "Package installation failed."; exit 1; }
+    sudo apt-get install -y cmake meson ninja-build curl pkg-config || { echo "Package installation failed."; exit 1; }
 }
 
 # ========================================
 # Picom Installation
 # ========================================
 install_ftlabs_picom() {
-    if command_exists picom; then
+	if command_exists picom; then
         echo "Picom is already installed. Skipping installation."
-    else
-        echo "Installing Picom..."
-        git clone https://github.com/FT-Labs/picom "$INSTALL_DIR/picom" || { echo "Failed to clone Picom repository."; return 1; }
-        cd "$INSTALL_DIR/picom" || { echo "Failed to access Picom directory."; return 1; }
-        meson setup --buildtype=release build || { echo "Meson setup failed."; return 1; }
-        ninja -C build || { echo "Ninja build failed."; return 1; }
-        sudo ninja -C build install || { echo "Ninja install failed."; return 1; }
-        echo "Picom installation complete."
+        return
     fi
+	sudo apt-get install -y libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev libxext-dev meson ninja-build uthash-dev
+	
+    git clone https://github.com/FT-Labs/picom "$INSTALL_DIR/picom" || die "Failed to clone Picom."
+    cd "$INSTALL_DIR/picom"
+    meson setup --buildtype=release build
+    ninja -C build
+    sudo ninja -C build install
 }
 
 # ========================================
