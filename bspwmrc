@@ -32,27 +32,14 @@ bspc rule -a Lxappearance state=floating layer=normal
 # bspc rule -a obs desktop='^10' follow=on
 # bspc rule -a discord desktop='^8' follow=on
 
-# start up stuff
-# if you want i3 style columns with equal size uncomment the following 2 lines:
-# bspc rule -a "*" split_dir=east
-# ~/.config/bspwm/scripts/autoresize.sh &
-
 xsetroot -cursor_name left_ptr &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 dunst -config ~/.config/bspwm/dunst/dunstrc &
 picom --config ~/.config/bspwm/picom/picom.conf --animations -b &
-# feh --bg-fill ~/.config/bspwm/wallpaper/gruvbox-dark-debian-scalable.svg &
-# feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-43j8e6_3440x1440.png &
 feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-m3m2zm_3440x1440.png &
 
 ## Polybar or tint
 ~/.config/bspwm/scripts/polybar-bspwm &
-
-# nextcloud
-# ~/scripts/Nextcloud-3.15.3-x86_64.AppImage &
-
-## Clipmemu start
-# clipmenud &
 
 ## apps for systray if enabled
 # volumeicon &
