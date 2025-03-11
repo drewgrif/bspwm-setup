@@ -73,6 +73,10 @@ super + shift + q
 # Close Focused Window
 super + q
 	bspc node -c
+	
+# Shutdown or Reboot
+super + x
+	~/.config/bspwm/scripts/power
 
 # Rotate Window 90° Clockwise
 super + i
