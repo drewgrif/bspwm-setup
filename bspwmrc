@@ -33,7 +33,7 @@ xsetroot -cursor_name left_ptr &
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 dunst -config ~/.config/bspwm/dunst/dunstrc &
 picom --config ~/.config/bspwm/picom/picom.conf --animations -b &
-feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-m3m2zm_3440x1440.png &
+feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-6dzwm7_3440x1440.png &
 
 ## Polybar or tint
 ~/.config/bspwm/scripts/polybar-bspwm &
