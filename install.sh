@@ -80,7 +80,7 @@ setup_bspwm_config() {
 # Install required packages
 install_packages() {
     echo "Installing required packages..."
-    sudo apt-get install -y xorg xorg-dev backlight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman lxappearance dialog mtools avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus exa suckless-tools ranger redshift flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark pipewire-audio nala micro xdg-user-dirs-gtk tilix lightdm || echo "Warning: Package installation failed."
+    sudo apt-get install -y xorg xorg-dev xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman lxappearance dialog mtools avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus exa suckless-tools ranger redshift flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr geany geany-plugin-addons geany-plugin-git-changebar geany-plugin-spellcheck geany-plugin-treebrowser geany-plugin-markdown geany-plugin-insertnum geany-plugin-lineoperations geany-plugin-automark pipewire-audio nala micro xdg-user-dirs-gtk tilix lightdm || echo "Warning: Package installation failed."
     echo "Package installation completed."
 }
 
@@ -369,6 +369,7 @@ install_reqs
 install_ftlabs_picom
 install_fastfetch
 install_wezterm
+install_fonts
 install_theming
 change_theming
 replace_bashrc
