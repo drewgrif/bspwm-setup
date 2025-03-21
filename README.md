@@ -21,7 +21,7 @@ Specialized configuration for:
 - **Rofi**: Application launcher.
 - **Picom**: Compositor.
 - **Feh**: For wallpaper management.
-- **Ghostty**: Latest version from git.
+- **Wezterm**: Latest version from github.
 - **Roboto Mono Nerd Font**: For icons in Polybar.
 
 ## Installation
