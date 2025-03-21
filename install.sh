@@ -199,7 +199,7 @@ install_wezterm() {
 
     echo "Setting up Wezterm configuration..."
     mkdir -p "$HOME/.config/wezterm"
-    wget -O "$HOME/.config/wezterm/wezterm.lua" "https://raw.githubusercontent.com/drewgrif/jag_dots/main/.wezterm.lua" || die "Failed to download wezterm config."
+    wget -O "$HOME/.config/wezterm/wezterm.lua" "" || die "Failed to download wezterm config."
 
     echo "Wezterm installation and configuration complete."
 }
