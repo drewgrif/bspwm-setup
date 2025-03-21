@@ -197,8 +197,9 @@ install_wezterm() {
     sudo apt install -y "$TMP_DEB" || die "Failed to install Wezterm."
     rm -f "$TMP_DEB"
 
-    echo "Downloading Wezterm configuration..."
-    wget -O "$HOME/.wezterm.lua" "https://raw.githubusercontent.com/drewgrif/jag_dots/main/.wezterm.lua" || die "Failed to download wezterm config."
+    echo "Setting up Wezterm configuration..."
+    mkdir -p "$HOME/.config/wezterm"
+    wget -O "$HOME/.config/wezterm/wezterm.lua" "https://raw.githubusercontent.com/drewgrif/jag_dots/main/.wezterm.lua" || die "Failed to download wezterm config."
 
     echo "Wezterm installation and configuration complete."
 }
