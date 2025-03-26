@@ -52,6 +52,7 @@ Also includes utilities like `ripgrep`, `fzf`, `ranger`, `unzip`, and more.
 - Polybar, dunst, rofi, and GTK themes preconfigured
 - Wallpapers stored in `~/.config/bspwm/wallpaper`
 - Autostart handled by `bspwmrc`
+  > 💡 _Special thanks to [vinceliuice](https://github.com/vinceliuice) for creating these excellent GTK and icon themes._
 
 ---
 
@@ -84,11 +85,24 @@ This script supports optional binary installs via your personal scripts:
 ```bash
 .config/
 ├── bspwm/
+│   └── bspwmrc
 ├── sxhkd/
+│   └── sxhkdrc
 ├── polybar/
+│   ├── launch.sh
+│   └── config.ini
 ├── dunst/
+│   └── dunstrc
 ├── rofi/
+│   ├── config.rasi
+│   └── theme.rasi
 ├── scripts/
-└── wallpaper/
+│   ├── changevolume
+│   ├── autoresize.sh
+│   ├── redshift-on
+│   └── ...
+├── wallpaper/
+│   └── many choices
+
 ```
 

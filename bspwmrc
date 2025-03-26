@@ -36,7 +36,7 @@ picom --config ~/.config/bspwm/picom/picom.conf --animations -b &
 feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-6dzwm7_3440x1440.png &
 
 ## Polybar or tint
-~/.config/bspwm/scripts/polybar-bspwm &
+~/.config/bspwm/polybar/polybar-bspwm &
 
 ## apps for systray if enabled
 # volumeicon &
