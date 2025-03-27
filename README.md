@@ -82,10 +82,8 @@ This script supports optional binary installs via your personal scripts:
 
 ## 📁 Dotfiles Installed
 
-```bash
-.config/
-├── bspwm/
-│   └── bspwmrc
+~/.config/bspwm/
+├── bspwmrc                # Goes directly here
 ├── sxhkd/
 │   └── sxhkdrc
 ├── polybar/
@@ -104,5 +102,4 @@ This script supports optional binary installs via your personal scripts:
 ├── wallpaper/
 │   └── many choices
 
-```
 
