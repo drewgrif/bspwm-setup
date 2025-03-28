@@ -237,11 +237,6 @@ install_fonts() {
         fi
     done
 
-    # Add custom TTF fonts from your suckless config folder (optional step if you use custom fonts)
-    if [ -d ~/.config/suckless/fonts ]; then
-        cp ~/.config/suckless/fonts/*.ttf ~/.local/share/fonts/ 2>/dev/null || echo "Warning: No custom fonts found in ~/.config/suckless/fonts."
-    fi
-
     # Refresh font cache
     fc-cache -f || echo "Warning: Error rebuilding font cache."
 
