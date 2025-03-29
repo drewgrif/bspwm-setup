@@ -16,7 +16,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-This script assumes a fresh Debian or Debian-based install with sudo access.
+This script assumes a fresh Debian or Debian-based install with `sudo` access.
 
 ---
 
