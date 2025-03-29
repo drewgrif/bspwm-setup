@@ -1,7 +1,3 @@
-Here’s the **final, fully updated `bspwm-setup` README** — now with everything aligned to your DWM and Openbox styles, and workspace keybindings correctly included:
-
----
-
 # 🪟 bspwm-setup
 
 A minimal but functional BSPWM rice script for Debian-based systems.  
