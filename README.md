@@ -1,3 +1,7 @@
+Here’s the **final, fully updated `bspwm-setup` README** — now with everything aligned to your DWM and Openbox styles, and workspace keybindings correctly included:
+
+---
+
 # 🪟 bspwm-setup
 
 A minimal but functional BSPWM rice script for Debian-based systems.  
@@ -22,27 +26,27 @@ This script assumes a fresh Debian or Debian-based install with sudo access.
 
 ## 📦 What It Installs
 
-| Component     | Purpose                          |
-|---------------|----------------------------------|
-| `bspwm`       | Tiling window manager            |
-| `sxhkd`       | Hotkey daemon                    |
-| `picom`       | Compositor for transparency      |
-| `rofi`        | Application launcher             |
-| `dunst`       | Notifications                    |
-| `feh`         | Wallpaper handler                |
-| `wezterm`     | Terminal emulator (default)      |
-| `thunar`      | File manager                     |
-| `nala`        | Better apt frontend              |
-| `pipewire`    | Audio handling                   |
-| `pulsemixer`  | CLI audio control                |
-| `xfce4-power-manager` | Power management         |
-| `flameshot`   | Screenshot utility               |
-| `micro`       | Terminal text editor             |
-| `geany`       | Lightweight IDE + plugins        |
-| `redshift`    | Night light                      |
-| `qimgv`       | Lightweight image viewer         |
+| Component             | Purpose                          |
+|------------------------|----------------------------------|
+| `bspwm`               | Tiling window manager            |
+| `sxhkd`               | Hotkey daemon                    |
+| `picom` `(FT-Labs)`   | Compositor for transparency      |
+| `polybar`             | Status bar                       |
+| `rofi`                | Application launcher             |
+| `dunst`               | Notifications                    |
+| `wezterm`             | Terminal emulator (default)      |
+| `firefox-esr`         | Default web browser              |
+| `geany` + plugins     | Lightweight IDE                  |
+| `thunar` + plugins    | File manager                     |
+| `nala`                | Better apt frontend              |
+| `pipewire`            | Audio handling                   |
+| `flameshot`,          | Screenshot tools                 |
+| `micro`               | Terminal text editor             |
+| `redshift`            | Night light                      |
+| `qimgv`               | Lightweight image viewer         |
+| `fzf`, etc.           | Utilities & enhancements         |
 
-Also includes utilities like `ripgrep`, `fzf`, `ranger`, `unzip`, and more.
+> 📄 _Need help with Geany? See the full guide at [justaguylinux.com/documentation/software/geany](https://justaguylinux.com/documentation/software/geany)_
 
 ---
 
@@ -51,44 +55,42 @@ Also includes utilities like `ripgrep`, `fzf`, `ranger`, `unzip`, and more.
 - Minimal theme with custom wallpapers
 - Polybar, dunst, rofi, and GTK themes preconfigured
 - Wallpapers stored in `~/.config/bspwm/wallpaper`
-- Autostart handled by `bspwmrc`
-  > 💡 _Special thanks to [vinceliuice](https://github.com/vinceliuice) for creating these excellent GTK and icon themes._
+- GTK Theme: [Orchis](https://github.com/vinceliuice/Orchis-theme)
+- Icon Theme: [Colloid](https://github.com/vinceliuice/Colloid-icon-theme)
+
+> 💡 _Special thanks to [vinceliuice](https://github.com/vinceliuice) for the excellent GTK and icon themes._
 
 ---
 
-## 🎹 Keybindings
+## 🔑 Keybindings Overview
 
-Configured via `~/.config/sxhkd/sxhkdrc`.
+| Key Combo              | Action                                |
+|------------------------|----------------------------------------|
+| `Super + Enter`        | Launch terminal                        |
+| `Super + Space`        | Launch rofi                            |
+| `Super + Q`            | Close focused window                   |
+| `Super + H`            | Help via keybind viewer                |
+| `Super + Shift + R`    | Restart bspwm                          |
+| `Super + 1–=`          | Switch to workspace (desktop)          |
+| `Super + Shift + 1–=`  | Move window to workspace (desktop)     |
 
-| Key Combo       | Action                     |
-|------------------|----------------------------|
-| `Super + Enter`  | Launch terminal            |
-| `Super + Space`      | Launch rofi                |
-| `Super + Q`      | Close window               |
-| `Super + H`| Help with Keybindings |
-| `Super + Shift + R` | Restart bspwm           |
+Keybindings are configured via:
 
----
-
-## 🧩 Optional Scripts
-
-This script supports optional binary installs via your personal scripts:
-
-- `~/.config/suckless/scripts/firefox-latest.sh`
-- `~/.config/suckless/scripts/zen-install.sh`
-- `~/.config/suckless/scripts/discord.sh`
+- `~/.config/sxhkd/sxhkdrc`
+- `~/.config/bspwm/scripts/help` (run manually or with `Super + H`)
 
 ---
 
-## 📁 Dotfiles Installed
+## 📂 Configuration Files
 
+```
 ~/.config/bspwm/
-├── bspwmrc                # Goes directly here
+├── bspwmrc                # Main bspwm config
 ├── sxhkd/
-│   └── sxhkdrc
+│   └── sxhkdrc            # Keybinding configuration
 ├── polybar/
-│   ├── launch.sh
-│   └── config.ini
+│   ├── config.ini
+│   └── launch.sh
 ├── dunst/
 │   └── dunstrc
 ├── rofi/
@@ -98,8 +100,30 @@ This script supports optional binary installs via your personal scripts:
 │   ├── changevolume
 │   ├── autoresize.sh
 │   ├── redshift-on
-│   └── ...
+│   ├── help
 ├── wallpaper/
-│   └── many choices
+│   └── (wallpaper images)
+```
 
+---
 
+## 🧩 Optional Scripts
+
+If the following scripts are present, they’ll be executed for binary installs:
+
+- `~/.config/suckless/scripts/firefox-latest.sh`
+- `~/.config/suckless/scripts/zen-install.sh`
+- `~/.config/suckless/scripts/discord.sh`
+
+These allow you to use alternate versions of Firefox, Discord, and Zen Browser.
+
+---
+
+## 📺 Watch on YouTube
+
+Want to see how it looks and works?  
+🎥 Check out [JustAGuy Linux on YouTube](https://www.youtube.com/@JustAGuyLinux)
+
+---
+
+All three READMEs are now consistent, sharp, and packed with everything a user needs. Let me know if you'd like a badge set next (`Made for Debian`, `MIT License`, etc.) or compressed versions for GitHub summary previews!
