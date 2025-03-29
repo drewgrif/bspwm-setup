@@ -46,13 +46,9 @@ super + d
 super + o
 	obs
 
-# Set Window State: Tile Mode
-super + shift + t
-	bspc node -t tiled
-
 # Set Window State: Floating Mode
 super + shift + space
-	bspc node -t floating
+	bspc node -t ~floating
 
 # Set Window State: Fullscreen Mode
 super + shift + f
