@@ -33,8 +33,8 @@ This script assumes a fresh Debian or Debian-based install with `sudo` access.
 | `rofi`                | Application launcher             |
 | `dunst`               | Notifications                    |
 | `wezterm`             | Terminal emulator (default)      |
+| `st`                  | Simple terminal (scratchpad)     |
 | `firefox-esr`         | Default web browser              |
-| `geany` + plugins     | Lightweight IDE                  |
 | `thunar` + plugins    | File manager                     |
 | `nala`                | Better apt frontend              |
 | `pipewire`            | Audio handling                   |
@@ -43,6 +43,9 @@ This script assumes a fresh Debian or Debian-based install with `sudo` access.
 | `redshift`            | Night light                      |
 | `qimgv`               | Lightweight image viewer         |
 | `fzf`, etc.           | Utilities & enhancements         |
+
+**Optional during install:**
+- `geany` + plugins - Lightweight IDE (installer will prompt)
 
 > 📄 _Need help with Geany? See the full guide at [justaguylinux.com/documentation/software/geany](https://justaguylinux.com/documentation/software/geany)_
 
@@ -65,6 +68,7 @@ This script assumes a fresh Debian or Debian-based install with `sudo` access.
 | Key Combo              | Action                                |
 |------------------------|----------------------------------------|
 | `Super + Enter`        | Launch terminal                        |
+| `Super + Shift + Enter`| Toggle scratchpad terminal             |
 | `Super + Space`        | Launch rofi                            |
 | `Super + Q`            | Close focused window                   |
 | `Super + H`            | Help via keybind viewer                |
@@ -98,22 +102,13 @@ Keybindings are configured via:
 │   ├── changevolume
 │   ├── autoresize.sh
 │   ├── redshift-on
-│   ├── help
+│   ├── redshift-off
+│   ├── power
+│   ├── scratchpad
+│   └── help
 ├── wallpaper/
 │   └── (wallpaper images)
 ```
-
----
-
-## 🧩 Optional Scripts
-
-If the following scripts are present, they’ll be executed for binary installs:
-
-- `~/.config/suckless/scripts/firefox-latest.sh`
-- `~/.config/suckless/scripts/zen-install.sh`
-- `~/.config/suckless/scripts/discord.sh`
-
-These allow you to use alternate versions of Firefox, Discord, and Zen Browser.
 
 ---
 
