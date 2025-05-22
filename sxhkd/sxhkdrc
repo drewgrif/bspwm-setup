@@ -14,9 +14,9 @@ super + Return
 super + space
    	rofi -show drun -modi drun -line-padding 4 -hide-scrollbar -show-icons -theme ~/.config/bspwm/rofi/config.rasi
 
-# Launch Floating Terminal (Tilix)
+# Toggle Scratchpad Terminal
 super + shift + Return
-    st
+    ~/.config/bspwm/scripts/scratchpad
 	
 # Show Keybinding Help Script
 super + h

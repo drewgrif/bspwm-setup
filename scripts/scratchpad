@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Scratchpad terminal toggle script for bspwm
+SCRATCHPAD_CLASS="scratchpad"
+TERMINAL="st -c $SCRATCHPAD_CLASS"
+
+# Check if scratchpad exists
+id=$(xdotool search --class "$SCRATCHPAD_CLASS")
+
+if [ -z "$id" ]; then
+    # Launch scratchpad if it doesn't exist
+    $TERMINAL &
+else
+    # Toggle visibility if it exists
+    bspc node "$id" -g hidden -f
+fi
