@@ -16,7 +16,7 @@ super + space
 
 # Launch Floating Terminal (Tilix)
 super + shift + Return
-    tilix
+    st
 	
 # Show Keybinding Help Script
 super + h

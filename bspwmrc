@@ -21,7 +21,7 @@ bspc rule -a "*" split_dir=east
 bspc rule -a \* rectangle 1600×900+0+0 center=true
 bspc rule -a qimgv state=floating
 bspc rule -a Xarchiver state=floating layer=normal
-bspc rule -a Tilix state=floating layer=normal
+bspc rule -a st state=floating layer=normal
 bspc rule -a Galculator state=floating layer=normal rectangle=900x600+0+0
 bspc rule -a mpv state=floating layer=normal rectangle 1920x1080+0+0
 bspc rule -a Pavucontrol:pavucontrol state=floating 
@@ -41,7 +41,7 @@ feh --bg-fill ~/.config/bspwm/wallpaper/wallhaven-vq76dp_3440x1440.png &
 ~/.config/bspwm/polybar/polybar-bspwm &
 
 # nextcloud
-~/Applications/Nextcloud-3.16.3-x86_64.AppImage &
+# ~/Applications/Nextcloud-3.16.3-x86_64.AppImage &
 
 ## apps for systray if enabled
 # volumeicon &
