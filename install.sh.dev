@@ -216,6 +216,13 @@ install_wezterm() {
 }
 
 # ============================================
+# Install st
+# ============================================
+install_st() {
+    run_butterscript "st/install_st.sh"
+}
+
+# ============================================
 # Install Fonts
 # ============================================
 install_fonts() {
@@ -262,6 +269,7 @@ check_bspwm
 setup_bspwm_config
 install_ftlabs_picom
 install_wezterm
+install_st
 install_fonts
 install_theming
 install_displaymanager
