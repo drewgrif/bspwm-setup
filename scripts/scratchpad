@@ -2,7 +2,68 @@
 
 # Scratchpad terminal toggle script for bspwm
 SCRATCHPAD_CLASS="scratchpad"
-TERMINAL="st -c $SCRATCHPAD_CLASS"
+
+# Function to find available terminal emulator
+get_terminal() {
+    # Check for user-defined scratchpad terminal first
+    if [ -n "$BSPWM_SCRATCHPAD_TERMINAL" ] && command -v "$BSPWM_SCRATCHPAD_TERMINAL" >/dev/null 2>&1; then
+        echo "$BSPWM_SCRATCHPAD_TERMINAL"
+        return
+    fi
+    
+    # Default to st for scratchpad if available (lightweight and fast)
+    if command -v st >/dev/null 2>&1; then
+        echo "st"
+        return
+    fi
+    
+    # Fall back to other terminals if st not available
+    for term in ghostty alacritty kitty wezterm xfce4-terminal gnome-terminal konsole urxvt; do
+        if command -v "$term" >/dev/null 2>&1; then
+            echo "$term"
+            return
+        fi
+    done
+    
+    # If no terminal found, notify user and exit
+    notify-send "Error" "No terminal emulator found. Please install st or set BSPWM_SCRATCHPAD_TERMINAL environment variable."
+    exit 1
+}
+
+# Get the terminal command
+TERMINAL_CMD=$(get_terminal)
+
+# Build the full terminal command with class option
+case "$TERMINAL_CMD" in
+    st|urxvt)
+        TERMINAL="$TERMINAL_CMD -c $SCRATCHPAD_CLASS"
+        ;;
+    alacritty)
+        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        ;;
+    kitty)
+        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        ;;
+    wezterm)
+        TERMINAL="$TERMINAL_CMD start --class $SCRATCHPAD_CLASS"
+        ;;
+    ghostty)
+        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        ;;
+    xfce4-terminal)
+        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        ;;
+    gnome-terminal)
+        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        ;;
+    konsole)
+        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        ;;
+    *)
+        # For unknown terminals, try common syntax
+        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        ;;
+esac
 
 # Check if scratchpad exists
 id=$(xdotool search --class "$SCRATCHPAD_CLASS")

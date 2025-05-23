@@ -37,6 +37,8 @@ Options:
   --help             Show usage information
 ```
 
+**Package Installation:** Packages are now installed in logical groups (core, UI, file manager, audio, utilities, terminal, fonts) for better organization and error handling.
+
 ### Distribution-Agnostic Installation
 
 <details>
@@ -109,7 +111,7 @@ sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
 | `polybar`             | Status bar                       |
 | `rofi`                | Application launcher             |
 | `dunst`               | Notifications                    |
-| `wezterm`             | Terminal emulator (default)      |
+| `wezterm`             | Terminal emulator (main)         |
 | `st`                  | Simple terminal (scratchpad)     |
 | `firefox-esr`         | Default web browser              |
 | `thunar` + plugins    | File manager                     |
@@ -144,8 +146,8 @@ sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
 
 | Key Combo              | Action                                |
 |------------------------|----------------------------------------|
-| `Super + Enter`        | Launch terminal                        |
-| `Super + Shift + Enter`| Toggle scratchpad terminal             |
+| `Super + Enter`        | Launch terminal (wezterm)              |
+| `Super + Shift + Enter`| Toggle scratchpad terminal (st)        |
 | `Super + Space`        | Launch rofi                            |
 | `Super + Q`            | Close focused window                   |
 | `Super + H`            | Help via keybind viewer                |
@@ -185,6 +187,17 @@ Keybindings are configured via:
 │   └── help
 ├── wallpaper/
 │   └── (wallpaper images)
+```
+
+### Terminal Configuration
+
+The setup uses two terminals for different purposes:
+- **Main terminal** (`Super + Enter`): Uses wezterm by default
+- **Scratchpad terminal** (`Super + Shift + Enter`): Prefers st (lightweight) but falls back to other terminals
+
+To customize the scratchpad terminal, set the `BSPWM_SCRATCHPAD_TERMINAL` environment variable in your shell config:
+```bash
+export BSPWM_SCRATCHPAD_TERMINAL=ghostty  # or any terminal you prefer
 ```
 
 ---

@@ -211,6 +211,94 @@ fi
 # ============================================
 # Install Required Packages
 # ============================================
+install_core_packages() {
+    echo "Installing core window manager packages..."
+    sudo apt-get install -y \
+        xorg \
+        xorg-dev \
+        xbacklight \
+        xbindkeys \
+        xvkbd \
+        xinput \
+        build-essential \
+        bspwm \
+        sxhkd \
+        xdotool \
+        libnotify-bin \
+        libnotify-dev \
+        || { echo "ERROR: Core package installation failed."; return 1; }
+}
+
+install_ui_packages() {
+    echo "Installing UI components..."
+    sudo apt-get install -y \
+        polybar \
+        rofi \
+        dunst \
+        feh \
+        lxappearance \
+        network-manager-gnome \
+        || { echo "ERROR: UI package installation failed."; return 1; }
+}
+
+install_file_manager_packages() {
+    echo "Installing file management packages..."
+    sudo apt-get install -y \
+        thunar \
+        thunar-archive-plugin \
+        thunar-volman \
+        gvfs-backends \
+        dialog \
+        mtools \
+        smbclient \
+        cifs-utils \
+        unzip \
+        || { echo "ERROR: File manager package installation failed."; return 1; }
+}
+
+install_audio_packages() {
+    echo "Installing audio packages..."
+    sudo apt-get install -y \
+        pavucontrol \
+        pulsemixer \
+        pamixer \
+        pipewire-audio \
+        || { echo "ERROR: Audio package installation failed."; return 1; }
+}
+
+install_utility_packages() {
+    echo "Installing utility packages..."
+    sudo apt-get install -y \
+        avahi-daemon \
+        acpi \
+        acpid \
+        xfce4-power-manager \
+        flameshot \
+        qimgv \
+        firefox-esr \
+        nala \
+        micro \
+        xdg-user-dirs-gtk \
+        || { echo "ERROR: Utility package installation failed."; return 1; }
+}
+
+install_terminal_packages() {
+    echo "Installing terminal and shell utilities..."
+    sudo apt-get install -y \
+        suckless-tools \
+        exa \
+        || { echo "ERROR: Terminal package installation failed."; return 1; }
+}
+
+install_font_packages() {
+    echo "Installing font packages..."
+    sudo apt-get install -y \
+        fonts-recommended \
+        fonts-font-awesome \
+        fonts-terminus \
+        || { echo "ERROR: Font package installation failed."; return 1; }
+}
+
 install_packages() {
     if [ "$SKIP_PACKAGES" = true ] || [ "$ONLY_CONFIG" = true ]; then
         echo "Skipping package installation..."
@@ -218,12 +306,21 @@ install_packages() {
     fi
     
     if [ "$DRY_RUN" = true ]; then
-        echo "[DRY RUN] Would install packages: bspwm, sxhkd, polybar, rofi, dunst, and dependencies"
+        echo "[DRY RUN] Would install packages in groups: core, ui, file manager, audio, utilities, terminal, fonts"
         return
     fi
     
     echo "Installing required packages..."
-    sudo apt-get install -y xorg xorg-dev xbacklight xbindkeys xvkbd xinput build-essential bspwm sxhkd polybar network-manager-gnome pamixer thunar thunar-archive-plugin thunar-volman lxappearance dialog mtools smbclient cifs-utils avahi-daemon acpi acpid gvfs-backends xfce4-power-manager pavucontrol pulsemixer feh fonts-recommended fonts-font-awesome fonts-terminus exa suckless-tools flameshot qimgv rofi dunst libnotify-bin xdotool unzip libnotify-dev firefox-esr pipewire-audio nala micro xdg-user-dirs-gtk  || echo "Warning: Package installation failed."
+    
+    # Install each group, but continue if one fails
+    install_core_packages || echo "Warning: Some core packages failed to install"
+    install_ui_packages || echo "Warning: Some UI packages failed to install"
+    install_file_manager_packages || echo "Warning: Some file manager packages failed to install"
+    install_audio_packages || echo "Warning: Some audio packages failed to install"
+    install_utility_packages || echo "Warning: Some utility packages failed to install"
+    install_terminal_packages || echo "Warning: Some terminal packages failed to install"
+    install_font_packages || echo "Warning: Some font packages failed to install"
+    
     echo "Package installation completed."
 }
 
