@@ -1,5 +1,7 @@
 # 🪟 bspwm-setup
 
+![Made for Debian](https://img.shields.io/badge/Made%20for-Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white)
+
 A minimal but functional BSPWM rice script for Debian-based systems.  
 Installs all core packages, window manager configs, and themes — ready to go out of the box.
 
@@ -11,6 +13,7 @@ Installs all core packages, window manager configs, and themes — ready to go o
 
 ## 🚀 Installation
 
+### Quick Install (Debian/Ubuntu)
 ```bash
 git clone https://github.com/drewgrif/bspwm-setup.git
 cd bspwm-setup
@@ -18,7 +21,81 @@ chmod +x install.sh
 ./install.sh
 ```
 
-This script assumes a fresh Debian or Debian-based install with `sudo` access.
+### Installation Options
+
+The installer now supports various options for different use cases:
+
+```bash
+./install.sh [OPTIONS]
+
+Options:
+  --only-config       Only copy config files (perfect for non-Debian distros)
+  --skip-packages     Skip apt package installation
+  --skip-themes       Skip theme, icon, and font installations
+  --skip-butterscripts Skip all external script installations
+  --dry-run          Show what would be done without making changes
+  --help             Show usage information
+```
+
+### Distribution-Agnostic Installation
+
+<details>
+<summary><strong>⚠️ UNSUPPORTED: Instructions for other distributions (click to expand)</strong></summary>
+
+**IMPORTANT:** These instructions are provided as-is for advanced users. Non-Debian distributions are **NOT officially supported**. Package names and availability may vary. Use at your own risk.
+
+**Arch Linux:**
+```bash
+# Install dependencies (package names may differ)
+sudo pacman -S bspwm sxhkd polybar rofi dunst picom thunar \
+  xorg-xbacklight pamixer pavucontrol feh flameshot firefox \
+  network-manager-applet xfce4-power-manager ttf-font-awesome
+
+# Copy configuration files
+./install.sh --only-config
+```
+
+**Fedora:**
+```bash
+# Install dependencies (package names may differ)
+sudo dnf install bspwm sxhkd polybar rofi dunst picom thunar \
+  xbacklight pamixer pavucontrol feh flameshot firefox \
+  network-manager-applet xfce4-power-manager fontawesome-fonts
+
+# Copy configuration files
+./install.sh --only-config
+```
+
+**openSUSE:**
+```bash
+# Install dependencies (package names may differ)
+sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
+  xbacklight pamixer pavucontrol feh flameshot firefox \
+  NetworkManager-applet xfce4-power-manager fontawesome-fonts
+
+# Copy configuration files
+./install.sh --only-config
+```
+
+</details>
+
+### Advanced Usage Examples
+
+```bash
+# Preview what will be installed
+./install.sh --dry-run
+
+# Update only configuration files
+./install.sh --only-config
+
+# Skip package installation if already installed
+./install.sh --skip-packages
+
+# Install without themes and fonts
+./install.sh --skip-themes
+```
+
+**Note:** The script can be run from any location - it automatically detects its directory.
 
 ---
 
@@ -117,6 +194,3 @@ Keybindings are configured via:
 Want to see how it looks and works?  
 🎥 Check out [JustAGuy Linux on YouTube](https://www.youtube.com/@JustAGuyLinux)
 
----
-
-All three READMEs are now consistent, sharp, and packed with everything a user needs. Let me know if you'd like a badge set next (`Made for Debian`, `MIT License`, etc.) or compressed versions for GitHub summary previews!
