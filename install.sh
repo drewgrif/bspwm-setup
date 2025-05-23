@@ -176,28 +176,53 @@ run_butterscript() {
 }
 
 # ============================================
+# Color definitions
+# ============================================
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# ============================================
 # Confirm User Intention
 # ============================================
 clear
-echo "
+echo -e "${CYAN}
  +-+-+-+-+-+-+-+-+-+-+-+-+-+ 
  |j|u|s|t|a|g|u|y|l|i|n|u|x| 
  +-+-+-+-+-+-+-+-+-+-+-+-+-+ 
  |b|s|p|w|m| | |s|c|r|i|p|t|  
  +-+-+-+-+-+-+-+-+-+-+-+-+-+                                                                            
-"
+${NC}"
+
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo
 
 if [ "$ONLY_CONFIG" = true ]; then
-    echo "This script will copy BSPWM configuration files only."
+    echo -e "${YELLOW}⚡ Configuration Mode:${NC} Will copy BSPWM configuration files only"
 else
-    echo "This script will install and configure BSPWM on your Debian system."
+    echo -e "${GREEN}📦 Full Installation:${NC} Will install packages and configure BSPWM"
 fi
 
 if [ "$DRY_RUN" = true ]; then
-    echo "[DRY RUN MODE] No changes will be made to your system."
+    echo -e "${YELLOW}🔍 DRY RUN MODE:${NC} No changes will be made to your system"
 fi
 
-read -p "Do you want to continue? (y/n) " confirm
+# Show active options
+if [ "$SKIP_PACKAGES" = true ] || [ "$SKIP_THEMES" = true ] || [ "$SKIP_BUTTERSCRIPTS" = true ]; then
+    echo
+    echo -e "${CYAN}Options enabled:${NC}"
+    [ "$SKIP_PACKAGES" = true ] && echo -e "  • Skipping package installation"
+    [ "$SKIP_THEMES" = true ] && echo -e "  • Skipping themes and fonts"
+    [ "$SKIP_BUTTERSCRIPTS" = true ] && echo -e "  • Skipping external scripts"
+fi
+
+echo
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo
+
+read -p "$(echo -e "${YELLOW}▶ Do you want to continue? (y/n) ${NC}")" confirm
 [[ ! "$confirm" =~ ^[Yy]$ ]] && die "Installation aborted."
 
 if [ "$ONLY_CONFIG" = false ] && [ "$SKIP_PACKAGES" = false ]; then
