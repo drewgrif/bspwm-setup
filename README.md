@@ -13,7 +13,7 @@ Installs all core packages, window manager configs, and themes — ready to go o
 
 ## 🚀 Installation
 
-### Quick Install (Debian/Ubuntu)
+### Quick Install
 ```bash
 git clone https://github.com/drewgrif/bspwm-setup.git
 cd bspwm-setup
