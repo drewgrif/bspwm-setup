@@ -277,6 +277,8 @@ install_file_manager_packages() {
         mtools \
         smbclient \
         cifs-utils \
+        ripgrep \
+        fd-find \
         unzip \
         || { echo "ERROR: File manager package installation failed."; return 1; }
 }
