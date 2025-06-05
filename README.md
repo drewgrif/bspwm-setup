@@ -149,13 +149,14 @@ sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
 | Key Combo              | Action                                |
 |------------------------|----------------------------------------|
 | `Super + Enter`        | Launch terminal (wezterm)              |
-| `Super + Shift + Enter`| Toggle scratchpad terminal (st)        |
+| `Super + Shift + Enter`| Toggle scratchpad terminal             |
 | `Super + Space`        | Launch rofi                            |
 | `Super + Q`            | Close focused window                   |
 | `Super + H`            | Help via keybind viewer                |
+| `Super + V`            | Audio mixer (pulsemixer) in scratchpad |
 | `Super + Shift + R`    | Restart bspwm                          |
-| `Super + 1–=`          | Switch to workspace (desktop)          |
-| `Super + Shift + 1–=`  | Move window to workspace (desktop)     |
+| `Super + 1-9,0,-,=`    | Switch to workspace 1-12               |
+| `Super + Shift + 1-9,0,-,=` | Move window to workspace 1-12      |
 
 Keybindings are configured via:
 
@@ -182,8 +183,6 @@ Keybindings are configured via:
 ├── scripts/
 │   ├── changevolume
 │   ├── autoresize.sh
-│   ├── redshift-on
-│   ├── redshift-off
 │   ├── power
 │   ├── scratchpad
 │   └── help
