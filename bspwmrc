@@ -16,12 +16,13 @@ bspc config active_border_color		"#539bf5"
 bspc config focused_border_color "#539bf5"
 bspc config normal_border_color "#2f363d"
 
-
 # bspc rule -a "*" split_dir=east
 bspc rule -a \* rectangle 1600×900+0+0 center=true
 bspc rule -a qimgv state=floating
 bspc rule -a Xarchiver state=floating layer=normal
-bspc rule -a scratchpad state=floating sticky=on rectangle=1200x800+0+0 center=true
+bspc rule -a st state=floating layer=normal
+bspc rule -a scratchpad state=floating layer=normal
+bspc rule -a pulsemixer state=floating layer=normal
 bspc rule -a Galculator state=floating layer=normal rectangle=900x600+0+0
 bspc rule -a mpv state=floating layer=normal rectangle 1920x1080+0+0
 bspc rule -a Pavucontrol:pavucontrol state=floating 

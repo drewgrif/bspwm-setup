@@ -1,7 +1,15 @@
 #!/bin/bash
 
 # Scratchpad terminal toggle script for bspwm
-SCRATCHPAD_CLASS="scratchpad"
+# Usage: scratchpad [app_name] [app_command]
+# Examples:
+#   scratchpad                    # Default terminal scratchpad
+#   scratchpad pulsemixer         # Pulsemixer scratchpad
+#   scratchpad htop htop          # htop scratchpad
+
+APP_NAME="${1:-scratchpad}"
+APP_COMMAND="${2:-}"
+SCRATCHPAD_CLASS="$APP_NAME"
 
 # Function to find available terminal emulator
 get_terminal() {
@@ -36,32 +44,68 @@ TERMINAL_CMD=$(get_terminal)
 # Build the full terminal command with class option
 case "$TERMINAL_CMD" in
     st|urxvt)
-        TERMINAL="$TERMINAL_CMD -c $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD -c $SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD -c $SCRATCHPAD_CLASS"
+        fi
         ;;
     alacritty)
-        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        fi
         ;;
     kitty)
-        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        fi
         ;;
     wezterm)
-        TERMINAL="$TERMINAL_CMD start --class $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD start --class $SCRATCHPAD_CLASS -- $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD start --class $SCRATCHPAD_CLASS"
+        fi
         ;;
     ghostty)
-        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        fi
         ;;
     xfce4-terminal)
-        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        fi
         ;;
     gnome-terminal)
-        TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS -- $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class=$SCRATCHPAD_CLASS"
+        fi
         ;;
     konsole)
-        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        fi
         ;;
     *)
         # For unknown terminals, try common syntax
-        TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        if [ -n "$APP_COMMAND" ]; then
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS -e $APP_COMMAND"
+        else
+            TERMINAL="$TERMINAL_CMD --class $SCRATCHPAD_CLASS"
+        fi
         ;;
 esac
 
