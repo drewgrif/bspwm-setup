@@ -133,7 +133,9 @@ sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
 ## 🎨 Appearance & Theming
 
 - Minimal theme with custom wallpapers
-- Polybar, dunst, rofi, and GTK themes preconfigured
+- Polybar with optimized layout: system info (left), workspaces (center), controls (right)
+- Enhanced polybar with multiple font support (Roboto Mono, FontAwesome, Hack Nerd Font)
+- Dunst, rofi, and GTK themes preconfigured
 - Wallpapers stored in `~/.config/bspwm/wallpaper`
 - GTK Theme: [Orchis](https://github.com/vinceliuice/Orchis-theme)
 - Icon Theme: [Colloid](https://github.com/vinceliuice/Colloid-icon-theme)
@@ -193,11 +195,29 @@ Keybindings are configured via:
 
 The setup uses two terminals for different purposes:
 - **Main terminal** (`Super + Enter`): Uses wezterm by default
-- **Scratchpad terminal** (`Super + Shift + Enter`): Prefers st (lightweight) but falls back to other terminals
+- **Scratchpad terminal** (`Super + Shift + Enter`): Enhanced auto-detection with comprehensive fallback support
 
-To customize the scratchpad terminal, set the `BSPWM_SCRATCHPAD_TERMINAL` environment variable in your shell config:
+#### Scratchpad Terminal Support
+
+The scratchpad system now supports multiple terminal emulators with intelligent fallback:
+
+**Supported terminals:** st, ghostty, alacritty, kitty, wezterm, xfce4-terminal, gnome-terminal, konsole, urxvt
+
+**Priority order:**
+1. User-defined via `BSPWM_SCRATCHPAD_TERMINAL` environment variable
+2. st (preferred for speed and minimal resource usage)
+3. Automatic fallback through available terminals
+
+To customize the scratchpad terminal, set the environment variable in your shell config:
 ```bash
 export BSPWM_SCRATCHPAD_TERMINAL=ghostty  # or any terminal you prefer
+```
+
+**Advanced scratchpad usage:**
+```bash
+# Launch custom applications in scratchpad mode
+Super + Shift + Enter    # Default terminal scratchpad
+# Or via script: scratchpad pulsemixer, scratchpad htop htop, etc.
 ```
 
 ---
