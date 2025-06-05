@@ -115,11 +115,11 @@ super + shift + Right
 	bspc node -s east
 
 # Switch to Workspace 1-12
-super + {1-9,0,F1,F2}
+super + {1-9,0,minus,equal}
 	bspc desktop --focus ^{1-9,10,11,12}
 
 # Move Focused Window to Workspace 1-12
-super + shift + {1-9,0,F1,F2}
+super + shift + {1-9,0,minus,equal}
 	bspc node --to-desktop ^{1-9,10,11,12}
 
 # Expand window width both sides
