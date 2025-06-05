@@ -34,9 +34,9 @@ super + e
 super + g
 	gimp
 
-# Launch Pulsemixer (Audio Mixer in Tilix)
+# Launch Pulsemixer (Audio Mixer in st)
 super + v
-   tilix -e pulsemixer
+   ~/.config/bspwm/scripts/scratchpad pulsemixer pulsemixer
 
 # Launch Discord
 super + d
@@ -173,14 +173,6 @@ super + Print
 # Take a Fullscreen Screenshot
 Print
 	flameshot full --path ~/Screenshots/
-	
-# Enable Redshift (Night Light)
-super + alt + r
-	~/.config/bspwm/scripts/redshift-on
-
-# Disable Redshift (Night Light)
-super + alt + b
-	~/.config/bspwm/scripts/redshift-off
 
 # Resize All Windows Equally
 super + equal
