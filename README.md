@@ -23,21 +23,23 @@ chmod +x install.sh
 
 ### Installation Options
 
-The installer now supports various options for different use cases:
+The installer supports the following options:
 
 ```bash
 ./install.sh [OPTIONS]
 
 Options:
-  --only-config       Only copy config files (perfect for non-Debian distros)
-  --skip-packages     Skip apt package installation
-  --skip-themes       Skip theme, icon, and font installations
-  --skip-butterscripts Skip all external script installations
-  --dry-run          Show what would be done without making changes
-  --help             Show usage information
+  --only-config      Only copy config files (skip packages and external tools)
+  --export-packages  Export package lists for different distros and exit
+  --help             Show help message
 ```
 
-**Package Installation:** Packages are now installed in logical groups (core, UI, file manager, audio, utilities, terminal, fonts) for better organization and error handling.
+**New Features:**
+- **Export packages**: Use `--export-packages` to see equivalent package lists for Arch Linux and Fedora
+- **Streamlined installation**: Simpler, more reliable installation process
+- **Better error handling**: Installation fails fast on errors to prevent partial setups
+
+**Package Installation:** Packages are installed in logical groups (core, UI, file manager, audio, utilities, terminal, fonts) for better organization.
 
 ### Distribution-Agnostic Installation
 
@@ -84,17 +86,11 @@ sudo zypper install bspwm sxhkd polybar rofi dunst picom thunar \
 ### Advanced Usage Examples
 
 ```bash
-# Preview what will be installed
-./install.sh --dry-run
+# Export package lists for other distributions
+./install.sh --export-packages
 
-# Update only configuration files
+# Update only configuration files (useful for non-Debian systems)
 ./install.sh --only-config
-
-# Skip package installation if already installed
-./install.sh --skip-packages
-
-# Install without themes and fonts
-./install.sh --skip-themes
 ```
 
 **Note:** The script can be run from any location - it automatically detects its directory.
