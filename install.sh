@@ -175,11 +175,11 @@ PACKAGES_AUDIO=(
 
 PACKAGES_UTILITIES=(
     avahi-daemon acpi acpid xfce4-power-manager
-    flameshot qimgv firefox-esr nala micro xdg-user-dirs-gtk
+    flameshot qimgv nala micro xdg-user-dirs-gtk
 )
 
 PACKAGES_TERMINAL=(
-    suckless-tools exa
+    suckless-tools
 )
 
 PACKAGES_FONTS=(
@@ -207,9 +207,15 @@ if [ "$ONLY_CONFIG" = false ]; then
 
     msg "Installing system utilities..."
     sudo apt-get install -y "${PACKAGES_UTILITIES[@]}" || die "Failed to install utilities"
+    
+    # Try firefox-esr first (Debian), then firefox (Ubuntu)
+    sudo apt-get install -y firefox-esr 2>/dev/null || sudo apt-get install -y firefox 2>/dev/null || msg "Note: firefox not available, skipping..."
 
     msg "Installing terminal tools..."
     sudo apt-get install -y "${PACKAGES_TERMINAL[@]}" || die "Failed to install terminal tools"
+    
+    # Try exa first (Debian 12), then eza (newer Ubuntu)
+    sudo apt-get install -y exa 2>/dev/null || sudo apt-get install -y eza 2>/dev/null || msg "Note: exa/eza not available, skipping..."
 
     msg "Installing fonts..."
     sudo apt-get install -y "${PACKAGES_FONTS[@]}" || die "Failed to install fonts"
