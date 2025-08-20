@@ -311,15 +311,6 @@ if [ "$ONLY_CONFIG" = false ]; then
     # Run in current terminal session to preserve interactivity
     bash "$TEMP_DIR/install_lightdm.sh"
 
-    # Bashrc configuration
-    clear
-    read -p "Replace your .bashrc with justaguylinux .bashrc? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        msg "Configuring bashrc..."
-        get_script "system/add_bashrc.sh"
-    fi
-
     # Optional tools
     clear
     read -p "Install optional tools (browsers, editors, etc)? (y/n) " -n 1 -r
