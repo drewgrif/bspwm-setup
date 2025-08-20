@@ -37,7 +37,8 @@ super + g
 # Launch Pulsemixer (Audio Mixer in st)
 super + v
    ~/.config/bspwm/scripts/scratchpad pulsemixer pulsemixer
-   
+
+# Paste to note (bashrc note)   
 super + shift + v
     bash -ic 'note clip && notify-send " Clipboard saved to notes"'
 
