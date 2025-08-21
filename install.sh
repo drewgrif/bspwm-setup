@@ -166,7 +166,7 @@ PACKAGES_UI=(
 
 PACKAGES_FILE_MANAGER=(
     thunar thunar-archive-plugin thunar-volman
-    gvfs-backends dialog mtools smbclient cifs-utils ripgrep fd-find unzip
+    gvfs-backends dialog mtools smbclient cifs-utils fd-find unzip
 )
 
 PACKAGES_AUDIO=(
@@ -175,7 +175,7 @@ PACKAGES_AUDIO=(
 
 PACKAGES_UTILITIES=(
     avahi-daemon acpi acpid xfce4-power-manager
-    flameshot qimgv nala micro xdg-user-dirs-gtk
+    flameshot qimgv micro xdg-user-dirs-gtk
 )
 
 PACKAGES_TERMINAL=(
