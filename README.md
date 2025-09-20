@@ -1,4 +1,17 @@
-# 🪟 bspwm-setup
+# 🌿 bspwm-setup
+
+> **🚨 REPOSITORY MIGRATION NOTICE**
+>
+> This repository has moved to **[Codeberg](https://codeberg.org/justaguylinux/bspwm-setup)**
+>
+> - **Primary repository**: https://codeberg.org/justaguylinux/bspwm-setup
+> - **This GitHub repository**: Mirror only (read-only)
+> - **Migration deadline**: December 15, 2025 - GitHub mirror will be archived
+>
+> Please update your bookmarks and git remotes:
+> ```bash
+> git remote set-url origin https://codeberg.org/justaguylinux/bspwm-setup.git
+> ```
 
 ![Made for Debian](https://img.shields.io/badge/Made%20for-Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white)
 
